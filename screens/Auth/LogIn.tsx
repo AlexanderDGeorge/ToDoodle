@@ -1,21 +1,33 @@
 import React from "react";
-import { StyleSheet, Button } from "react-native";
-import { View, Text } from "../../components/Themed";
+import { Formik } from "formik";
+import { StyleSheet } from "react-native";
+import { View, Text, Input } from "../../components/Themed";
 
 export default function LogIn({ navigation }) {
     return (
-        <View style={styles.container}>
-            <Text>LogIn</Text>
-            <Text>
-                Don't have an account?
-                <Text
-                    onPress={() => navigation.push("SignUpScreen")}
-                    style={styles.buttonLink}
-                >
-                    Sign Up
-                </Text>
-            </Text>
-        </View>
+        <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values) => console.log(values)}
+        >
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
+                <View style={styles.container}>
+                    <Text>Email</Text>
+                    <Input
+                        onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
+                        value={values.email}
+                        placeholder="user@email.com"
+                    />
+                    <Text>Password</Text>
+                    <Input
+                        onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
+                        value={values.password}
+                        placeholder="password"
+                    />
+                </View>
+            )}
+        </Formik>
     );
 }
 
@@ -24,6 +36,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+        padding: "5%",
     },
     buttonLink: {
         color: "#0000EE",
