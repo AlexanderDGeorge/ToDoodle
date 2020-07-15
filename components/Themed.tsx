@@ -30,7 +30,10 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
-export type InputProps = ThemeProps & DefaultInput["props"];
+export type InputProps = ThemeProps & InputInterface & DefaultInput["props"];
+export interface InputInterface {
+    label: string;
+}
 export type ButtonProps = ThemeProps &
     DefaultButton["props"] &
     DefaultView["props"];
@@ -53,22 +56,23 @@ export function View(props: ViewProps) {
 }
 
 export function Input(props: InputProps) {
-    const { style, lightColor, darkColor, ...otherProps } = props;
+    const { style, lightColor, darkColor, label, ...otherProps } = props;
 
     return (
-        <DefaultInput
-            style={[
-                {
-                    padding: 10,
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    width: "100%",
-                    minHeight: 50,
-                },
-                style,
-            ]}
-            {...otherProps}
-        />
+        <View style={[{ width: "100%", padding: 10 }, style]}>
+            <Text style={{ paddingBottom: 10 }}>{label}</Text>
+            <DefaultInput
+                style={[
+                    {
+                        padding: 10,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        width: "100%",
+                    },
+                ]}
+                {...otherProps}
+            />
+        </View>
     );
 }
 
@@ -80,6 +84,10 @@ export function Button(props: ButtonProps) {
             style={[
                 {
                     borderWidth: 1,
+                    borderRadius: 10,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 },
                 style,
             ]}

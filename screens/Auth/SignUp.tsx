@@ -1,34 +1,65 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
-import { View, Text, Input, Button } from "../../components/Themed";
-import { Formik } from "formik";
+import { StyleSheet, Button } from "react-native";
+import { View, Input } from "../../components/Themed";
+import { FormikProps, Formik, Form, Field } from "formik";
+import useFormManagement from "./formManagement";
 
-export default function SignUp({ navigation }) {
+export default function SignUp() {
+    const {
+        handleSubmit,
+        initialValues,
+        validationSchema,
+    } = useFormManagement();
+
     return (
         <Formik
-            initialValues={{ email: "", password: "" }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={handleSubmit}
+            initialValues={initialValues}
+            validationSchema={validationSchema}
         >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <View style={styles.container}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput
-                        style={styles.input}
+                    <View style={styles.row}>
+                        <Input
+                            label="First Name"
+                            placeholder="Alexander"
+                            style={{ width: "50%" }}
+                            onChangeText={handleChange("first")}
+                            onBlur={handleBlur("first")}
+                            value={values.first}
+                        />
+                        <Input
+                            label="Last Name"
+                            placeholder="George"
+                            style={{ width: "50%" }}
+                            onChangeText={handleChange("last")}
+                            onBlur={handleBlur("last")}
+                            value={values.last}
+                        />
+                    </View>
+                    <Input
+                        label="Email"
+                        placeholder="user@gmail.com"
                         onChangeText={handleChange("email")}
                         onBlur={handleBlur("email")}
                         value={values.email}
-                        placeholder="user@gmail.com"
                     />
-                    <Text style={styles.label}>Password</Text>
                     <Input
-                        style={styles.input}
+                        label="Password"
+                        placeholder="password"
                         onChangeText={handleChange("password")}
                         onBlur={handleBlur("password")}
                         value={values.password}
-                        placeholder="password"
+                    />
+                    <Input
+                        label="Confirm Password"
+                        placeholder="confirm password"
+                        onChangeText={handleChange("confirmPassword")}
+                        onBlur={handleBlur("confirmPassword")}
+                        value={values.confirmPassword}
                     />
                     <Button
-                        style={{ borderWidth: 1, width: 50, height: 50 }}
+                        style={{ borderWidth: 1, height: 50 }}
                         onPress={handleSubmit}
                         title="Submit"
                     />
@@ -42,8 +73,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "space-evenly",
         padding: "5%",
+    },
+    row: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     input: {
         borderColor: "black",

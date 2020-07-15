@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { StyleSheet } from "react-native";
-import { View, Text, Input } from "../../components/Themed";
+import { View, Text, Input, Button } from "../../components/Themed";
 
 export default function LogIn({ navigation }) {
     return (
@@ -25,6 +25,7 @@ export default function LogIn({ navigation }) {
                         value={values.password}
                         placeholder="password"
                     />
+                    <Button title="Submit" onPress={handleSubmit} />
                 </View>
             )}
         </Formik>
