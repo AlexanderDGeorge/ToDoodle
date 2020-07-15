@@ -1,7 +1,12 @@
 import React from "react";
+import styled from "styled-components";
 
-function App() {
-    return <div className="App"></div>;
+const AppDiv = styled.div`
+    height: 100%;
+    width: 100%;
+    background-color: black;
+`;
+
+export default function App() {
+    return <AppDiv></AppDiv>;
 }
-
-export default App;
