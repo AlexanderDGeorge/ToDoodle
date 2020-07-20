@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
+// import { User } from "./App";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDi83sli5-EdNUjSKrmZCWxPf3c6XJuZ9o",
@@ -20,3 +21,16 @@ firebase.analytics();
 export const auth = firebase.auth;
 export const firestore = firebase.firestore;
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+interface User {
+    firstName: string;
+    lastName: string;
+    email: string;
+    photoURL: string;
+}
+
+export async function fetchUser(uid: string) {
+    const userRef = firestore().collection("users").doc(uid);
+    const user = await userRef.get();
+    return user.data() ? { uid, ...user.data() } : null;
+}

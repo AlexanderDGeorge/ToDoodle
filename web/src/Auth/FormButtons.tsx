@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FaGoogle } from "react-icons/fa";
+import { signInWithGoogle } from "./Auth";
 
 const FormButtonWrapper = styled.button`
     height: 40px;
@@ -38,7 +39,7 @@ export function LogInButton() {
 
 export function GoogleButton() {
     return (
-        <FormButtonWrapper>
+        <FormButtonWrapper onClick={signInWithGoogle}>
             <FaGoogle />
             Continue with Google
         </FormButtonWrapper>
