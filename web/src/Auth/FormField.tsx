@@ -5,6 +5,7 @@ import FormError from "./FormError";
 
 interface FormFieldProps {
     label: string;
+    style?: any;
     state: string;
     setState: any;
     type: string;
@@ -14,21 +15,25 @@ interface FormFieldProps {
 }
 
 const FormFieldWrapper = styled.div`
+    min-width: 200px;
+    width: 100%;
+    margin-top: 40px;
+    background-color: white;
+    border-radius: 10px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 40px 10px 0 0;
     > * {
         font-size: 16px;
     }
     > label {
         position: absolute;
-        z-index: -1;
         padding: 10px;
     }
     > input {
         width: 100%;
+        z-index: 1;
         box-sizing: border-box;
         outline: none;
         border-radius: 10px;
@@ -42,7 +47,7 @@ const FormFieldWrapper = styled.div`
 `;
 
 export default function FormField(props: FormFieldProps) {
-    const { label, state, setState, type, required, min, max } = props;
+    const { label, style, state, setState, type, required, min, max } = props;
     const initialState = {
         color: "#999",
         transform: "translateY(0px)",
@@ -85,7 +90,7 @@ export default function FormField(props: FormFieldProps) {
     }
 
     return (
-        <FormFieldWrapper>
+        <FormFieldWrapper style={style}>
             <animated.label style={spring} htmlFor={label}>
                 {label}
             </animated.label>

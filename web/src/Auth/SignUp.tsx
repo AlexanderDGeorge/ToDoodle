@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import FormField from "./FormField";
+import { SignUpButton, GoogleButton } from "./FormButtons";
 
 interface NewUser {
     first: string;
@@ -11,8 +12,14 @@ interface NewUser {
 }
 
 const SignUpWrapper = styled.form`
-    > div {
+    width: 75%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > section {
         display: flex;
+        width: 100%;
     }
 `;
 
@@ -25,8 +32,9 @@ export default function SignUp() {
 
     return (
         <SignUpWrapper>
-            <div>
+            <section>
                 <FormField
+                    style={{ marginRight: 10, minWidth: 0 }}
                     label="First Name"
                     state={first}
                     setState={setFirst}
@@ -36,6 +44,7 @@ export default function SignUp() {
                     max={16}
                 />
                 <FormField
+                    style={{ minWidth: 0 }}
                     label="Last Name"
                     state={last}
                     setState={setLast}
@@ -44,7 +53,7 @@ export default function SignUp() {
                     min={4}
                     max={16}
                 />
-            </div>
+            </section>
             <FormField
                 label="Email"
                 state={email}
@@ -70,6 +79,8 @@ export default function SignUp() {
                 min={6}
                 max={16}
             />
+            <SignUpButton />
+            <GoogleButton />
         </SignUpWrapper>
     );
 }
