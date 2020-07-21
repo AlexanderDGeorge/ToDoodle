@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 import styled from "styled-components";
 import { auth, fetchUser } from "./firebase";
 import SignUp from "./Auth/SignUp";
+import Landing from "./Pages/Landing";
 
 const AppDiv = styled.div`
     height: 100%;
@@ -13,30 +14,44 @@ const AppDiv = styled.div`
 `;
 
 export interface User {
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
     photoURL: string;
+    toDos: Array<String>;
 }
 
-const UserContext = createContext(null);
+export const UserContext = createContext<User | null>(null);
 
 export default function App() {
-    const [currentUser, setCurrentUser] = useState<User | any>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
-        auth().onAuthStateChanged(async (user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
-                setCurrentUser(await fetchUser(user.uid));
+                console.log("here");
+                const fetchedUser = await fetchUser(user.uid);
+                setCurrentUser(fetchedUser ? fetchedUser : null);
             } else {
                 setCurrentUser(null);
             }
         });
     }, []);
 
-    return (
-        <AppDiv>
-            <SignUp />
-        </AppDiv>
-    );
+    console.log(currentUser);
+
+    if (currentUser) {
+        return (
+            <AppDiv>
+                <Landing />
+            </AppDiv>
+        );
+    } else {
+        return (
+            <AppDiv>
+                <SignUp />
+            </AppDiv>
+        );
+    }
 }
