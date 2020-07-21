@@ -1,43 +1,25 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import Form from "./Form";
 import FormField from "./FormField";
 import { SignUpButton, GoogleButton } from "./FormButtons";
 
-interface NewUser {
-    first: string;
-    last: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
-
-const SignUpWrapper = styled.form`
-    width: 75%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    > section {
-        display: flex;
-        width: 100%;
-    }
-`;
-
 export default function SignUp() {
-    const [first, setFirst] = useState("");
-    const [last, setLast] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
     return (
-        <SignUpWrapper>
+        <Form
+            formInfo={{ firstName, lastName, email, password, confirmPassword }}
+        >
             <section>
                 <FormField
                     style={{ marginRight: 10, minWidth: 0 }}
                     label="First Name"
-                    state={first}
-                    setState={setFirst}
+                    state={firstName}
+                    setState={setFirstName}
                     type="text"
                     required={true}
                     min={4}
@@ -46,8 +28,8 @@ export default function SignUp() {
                 <FormField
                     style={{ minWidth: 0 }}
                     label="Last Name"
-                    state={last}
-                    setState={setLast}
+                    state={lastName}
+                    setState={setLastName}
                     type="text"
                     required={true}
                     min={4}
@@ -81,6 +63,6 @@ export default function SignUp() {
             />
             <SignUpButton />
             <GoogleButton />
-        </SignUpWrapper>
+        </Form>
     );
 }

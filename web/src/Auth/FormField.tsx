@@ -14,38 +14,6 @@ interface FormFieldProps {
     max?: number;
 }
 
-const FormFieldWrapper = styled.div`
-    min-width: 200px;
-    width: 100%;
-    margin-top: 40px;
-    background-color: white;
-    border-radius: 10px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    > * {
-        font-size: 16px;
-    }
-    > label {
-        position: absolute;
-        padding: 10px;
-    }
-    > input {
-        width: 100%;
-        z-index: 1;
-        box-sizing: border-box;
-        outline: none;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: transparent;
-        border: 1px solid black;
-        &:focus {
-            border: 1px solid #0000ee;
-        }
-    }
-`;
-
 export default function FormField(props: FormFieldProps) {
     const { label, style, state, setState, type, required, min, max } = props;
     const initialState = {
@@ -107,3 +75,35 @@ export default function FormField(props: FormFieldProps) {
         </FormFieldWrapper>
     );
 }
+
+const FormFieldWrapper = styled.div`
+    min-width: 200px;
+    width: 100%;
+    margin-top: 40px;
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    > * {
+        font-size: 16px;
+    }
+    > label {
+        position: absolute;
+        padding: 10px;
+    }
+    > input {
+        width: 100%;
+        z-index: 1;
+        box-sizing: border-box;
+        outline: none;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid black;
+        &:focus {
+            border: 1px solid #0000ee;
+        }
+    }
+`;

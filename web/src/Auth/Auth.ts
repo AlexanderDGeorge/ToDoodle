@@ -1,14 +1,15 @@
 import { auth, firestore, googleProvider } from "../firebase";
 
-interface UserInfo {
+export interface UserData {
     firstName?: string;
     lastName?: string;
     email: string;
     password: string;
+    confirmPassword?: string;
 }
 
-export const logIn = async (userInfo: UserInfo) => {
-    await auth().signInWithEmailAndPassword(userInfo.email, userInfo.password);
+export const logIn = async (userData: UserData) => {
+    await auth().signInWithEmailAndPassword(userData.email, userData.password);
 };
 
 export const signInWithGoogle = async () => {
@@ -27,24 +28,24 @@ export const signInWithGoogle = async () => {
     }
 };
 
-export const signUp = async (userInfo: UserInfo) => {
+export const signUp = async (userData: UserData) => {
     try {
         const { user } = await auth().createUserWithEmailAndPassword(
-            userInfo.email,
-            userInfo.password
+            userData.email,
+            userData.password
         );
-        return await createUserDocument(userInfo, user);
+        return await createUserDocument(userData, user);
     } catch (error) {
         console.error(error.message);
     }
 };
 
 const createUserDocument = async (
-    userInfo: UserInfo,
+    userData: UserData,
     user: firebase.User | null
 ) => {
     if (!user) return;
-    const { firstName, lastName, email } = userInfo;
+    const { firstName, lastName, email } = userData;
     const userRef = firestore().collection("users").doc(user.uid);
     await userRef.set({
         id: user.uid,

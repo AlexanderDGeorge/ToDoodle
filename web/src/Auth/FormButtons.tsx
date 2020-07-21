@@ -1,34 +1,29 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FaGoogle } from "react-icons/fa";
-import { signInWithGoogle } from "./Auth";
-
-const FormButtonWrapper = styled.button`
-    height: 40px;
-    width: 200px;
-    margin-top: 40px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    &:hover {
-        box-shadow: 0 0 3px 1px;
-    }
-`;
+import { signInWithGoogle, signUp } from "./Auth";
+import { FormContext, ValuesContext } from "./Form";
+import Loader from "../Components/Loader";
 
 export function SignUpButton() {
-    function handleSignUp() {}
+    const { valid } = useContext(FormContext);
+    const values = useContext(ValuesContext);
+    const [loading, setLoading] = useState(false);
+
+    async function handleSignUp() {
+        setLoading(true);
+        await signUp(values);
+        setLoading(false);
+    }
 
     return (
         <FormButtonWrapper
             style={{ backgroundColor: "#46b01c" }}
             type="submit"
             onClick={handleSignUp}
+            // disabled={valid ? false : true}
         >
-            Sign Up
+            {loading ? <Loader /> : "Sign Up"}
         </FormButtonWrapper>
     );
 }
@@ -45,3 +40,20 @@ export function GoogleButton() {
         </FormButtonWrapper>
     );
 }
+
+const FormButtonWrapper = styled.button`
+    height: 40px;
+    width: 200px;
+    margin-top: 40px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    overflow: hidden;
+    &:hover {
+        box-shadow: 0 0 3px 1px;
+    }
+`;
