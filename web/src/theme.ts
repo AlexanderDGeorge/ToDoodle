@@ -1,5 +1,4 @@
-import { createContext, useContext } from "react";
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme, createGlobalStyle } from "styled-components";
 
 const lightTheme: DefaultTheme = {
     dark: "#555555",
@@ -12,6 +11,8 @@ const lightTheme: DefaultTheme = {
     main: "#f4676e",
     darkmain: "#f2545c",
     blue: "#0073bb",
+    lightgreen: "#69ce5f",
+    green: "#4cb944",
 };
 
 const darkTheme: DefaultTheme = {
@@ -25,9 +26,17 @@ const darkTheme: DefaultTheme = {
     main: "#f4676e",
     darkmain: "#f2545c",
     blue: "#0073bb",
+    lightgreen: "#69ce5f",
+    green: "#4cb944",
 };
 
 export const themes = {
     lightTheme,
     darkTheme,
 };
+
+export const GlobalStyle = createGlobalStyle`
+    * {
+        color: ${(props) => props.theme.black}
+    }
+`;

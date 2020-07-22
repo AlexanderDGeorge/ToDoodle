@@ -1,9 +1,9 @@
 import React, { useState, useEffect, createContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { themes } from "./theme";
+import { themes, GlobalStyle } from "./theme";
 import { auth, fetchUser } from "./firebase";
 import Landing from "./Pages/Landing";
-import Home from "./Pages/Home";
+import Router from "./Router";
 
 export interface User {
     id: string;
@@ -48,9 +48,10 @@ export default function App() {
                 <ThemeProvider
                     theme={darkMode ? themes.darkTheme : themes.lightTheme}
                 >
+                    <GlobalStyle />
                     <UserContext.Provider value={currentUser}>
                         <AppDiv>
-                            <Home />
+                            <Router />
                         </AppDiv>
                     </UserContext.Provider>
                 </ThemeProvider>

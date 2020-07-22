@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { FaArrowRight } from "react-icons/fa";
 import { useSpring, animated } from "react-spring";
 import ProfileNavItem from "./ProfileNavItem";
+import NavItem from "./NavItem";
+import { Toggle } from "../Components/Toggle";
+import { ThemeContext } from "../App";
 
 export default function Nav() {
     const [open, setOpen] = useState(false);
+    const { darkMode, setDarkMode } = useContext(ThemeContext);
     const [navSpring, setNavSpring] = useSpring(() => ({
         transform: "translateX(0%)",
     }));
     const [arrowSpring, setArrowSpring] = useSpring(() => ({
         transform: "rotate(0deg)",
     }));
+
+    useEffect(() => {
+        const container = document.getElementById("NavContainer");
+        function handleClick(e: any) {
+            if (open && e.target !== container) {
+                console.log("here");
+                toggleOpen();
+            }
+        }
+        document.addEventListener("click", handleClick);
+        return () => {
+            document.removeEventListener("click", handleClick);
+        };
+    }, [open]);
 
     function toggleOpen() {
         if (open) {
@@ -26,25 +44,20 @@ export default function Nav() {
     }
 
     return (
-        <NavContainer style={navSpring}>
+        <NavContainer style={navSpring} id="NavContainer">
             <NavToggle onClick={toggleOpen}>
                 <animated.div style={arrowSpring}>
                     <FaArrowRight />
                 </animated.div>
             </NavToggle>
             <ProfileNavItem />
-            <NavItem name="Dark Mode" toggleOpen={toggleOpen} />
+            <NavItem
+                name="Dark Mode"
+                icon={<Toggle toggle={darkMode} setToggle={setDarkMode} />}
+                toggleOpen={toggleOpen}
+            />
         </NavContainer>
     );
-}
-
-function NavItem(props: {
-    name: string;
-    toggleOpen: Function;
-    icon?: JSX.Element;
-    path?: string;
-}) {
-    return <NavItemContainer>{props.name}</NavItemContainer>;
 }
 
 const NavContainer = styled(animated.nav)`
@@ -53,7 +66,7 @@ const NavContainer = styled(animated.nav)`
     left: -80%;
     height: 100%;
     width: 80%;
-    background-color: black;
+    background-color: ${(props) => props.theme.light};
     box-sizing: border-box;
     padding: 2%;
 `;
@@ -64,22 +77,12 @@ const NavToggle = styled.div`
     right: -50px;
     height: 50px;
     width: 51px;
-    background-color: black;
+    background-color: ${(props) => props.theme.light};
     border-radius: 0 50% 50% 0;
     display: flex;
     justify-content: center;
     align-items: center;
     svg {
-        fill: white;
+        fill: ${(props) => props.theme.black};
     }
-`;
-
-const NavItemContainer = styled.div`
-    height: 60px;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid white;
-    color: white;
-    display: flex;
-    align-items: center;
 `;

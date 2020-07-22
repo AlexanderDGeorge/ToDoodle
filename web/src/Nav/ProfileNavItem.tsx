@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 
 export default function ProfileNavItem() {
@@ -10,6 +11,7 @@ export default function ProfileNavItem() {
             <img src={user?.photoURL} alt="" />
             <div>
                 <h2>{user?.firstName}</h2>
+                <Link to="/account">Edit Account</Link>
             </div>
         </ProfileNavItemContainer>
     );
@@ -19,8 +21,7 @@ const ProfileNavItemContainer = styled.div`
     height: 100px;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 1px solid white;
-    color: white;
+    border-bottom: 1px solid ${(props) => props.theme.black};
     display: flex;
     justify-content: space-between;
     > img {
@@ -31,6 +32,7 @@ const ProfileNavItemContainer = styled.div`
         display: flex;
         flex-direction: column;
         > h2 {
+            color: ${(props) => props.theme.dark};
         }
     }
 `;
