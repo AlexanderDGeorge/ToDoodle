@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaArrowRight } from "react-icons/fa";
 import { useSpring, animated } from "react-spring";
+import ProfileNavItem from "./ProfileNavItem";
 
 export default function Nav() {
     const [open, setOpen] = useState(false);
@@ -31,8 +32,19 @@ export default function Nav() {
                     <FaArrowRight />
                 </animated.div>
             </NavToggle>
+            <ProfileNavItem />
+            <NavItem name="Dark Mode" toggleOpen={toggleOpen} />
         </NavContainer>
     );
+}
+
+function NavItem(props: {
+    name: string;
+    toggleOpen: Function;
+    icon?: JSX.Element;
+    path?: string;
+}) {
+    return <NavItemContainer>{props.name}</NavItemContainer>;
 }
 
 const NavContainer = styled(animated.nav)`
@@ -42,6 +54,8 @@ const NavContainer = styled(animated.nav)`
     height: 100%;
     width: 80%;
     background-color: black;
+    box-sizing: border-box;
+    padding: 2%;
 `;
 
 const NavToggle = styled.div`
@@ -49,7 +63,7 @@ const NavToggle = styled.div`
     bottom: 50px;
     right: -50px;
     height: 50px;
-    width: 50px;
+    width: 51px;
     background-color: black;
     border-radius: 0 50% 50% 0;
     display: flex;
@@ -58,4 +72,14 @@ const NavToggle = styled.div`
     svg {
         fill: white;
     }
+`;
+
+const NavItemContainer = styled.div`
+    height: 60px;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid white;
+    color: white;
+    display: flex;
+    align-items: center;
 `;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import { themes } from "./theme";
 import { auth, fetchUser } from "./firebase";
 import Landing from "./Pages/Landing";
 import Home from "./Pages/Home";
@@ -13,10 +14,20 @@ export interface User {
     toDos: Array<String>;
 }
 
+interface IThemeContext {
+    darkMode: boolean;
+    setDarkMode: Function;
+}
+
 export const UserContext = createContext<User | null>(null);
+export const ThemeContext = createContext<IThemeContext>({
+    darkMode: false,
+    setDarkMode: () => {},
+});
 
 export default function App() {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
@@ -33,9 +44,17 @@ export default function App() {
 
     if (currentUser) {
         return (
-            <AppDiv>
-                <Home />
-            </AppDiv>
+            <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+                <ThemeProvider
+                    theme={darkMode ? themes.darkTheme : themes.lightTheme}
+                >
+                    <UserContext.Provider value={currentUser}>
+                        <AppDiv>
+                            <Home />
+                        </AppDiv>
+                    </UserContext.Provider>
+                </ThemeProvider>
+            </ThemeContext.Provider>
         );
     } else {
         return (
