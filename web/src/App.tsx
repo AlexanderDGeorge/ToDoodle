@@ -1,17 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
 import styled from "styled-components";
 import { auth, fetchUser } from "./firebase";
-import SignUp from "./Auth/SignUp";
 import Landing from "./Pages/Landing";
-
-const AppDiv = styled.div`
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ddd;
-`;
+import Home from "./Pages/Home";
 
 export interface User {
     id: string;
@@ -30,7 +21,6 @@ export default function App() {
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                console.log("here");
                 const fetchedUser = await fetchUser(user.uid);
                 setCurrentUser(fetchedUser ? fetchedUser : null);
             } else {
@@ -44,14 +34,23 @@ export default function App() {
     if (currentUser) {
         return (
             <AppDiv>
-                <Landing />
+                <Home />
             </AppDiv>
         );
     } else {
         return (
             <AppDiv>
-                <SignUp />
+                <Landing />
             </AppDiv>
         );
     }
 }
+
+const AppDiv = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+`;
