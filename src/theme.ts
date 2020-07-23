@@ -7,12 +7,14 @@ const lightTheme: DefaultTheme = {
     light: "#fafafa",
     white: "white",
     black: "black",
-    lightmain: "#f57a80",
-    main: "#f4676e",
-    darkmain: "#f2545c",
     blue: "#0073bb",
     lightgreen: "#69ce5f",
     green: "#4cb944",
+    cred: "#C81927",
+    cblue: "#1885F2",
+    corange: "#ED8607",
+    cpurple: "#514EBC",
+    cgreen: "#00A344",
 };
 
 const darkTheme: DefaultTheme = {
@@ -22,12 +24,14 @@ const darkTheme: DefaultTheme = {
     light: "#555555",
     white: "#333333",
     black: "#fafafa",
-    lightmain: "#f2545c",
-    main: "#f4676e",
-    darkmain: "#f2545c",
     blue: "#0073bb",
     lightgreen: "#69ce5f",
     green: "#4cb944",
+    cred: "#C81927",
+    cblue: "#1885F2",
+    corange: "#ED8607",
+    cpurple: "#514EBC",
+    cgreen: "#00A344",
 };
 
 export const themes = {
@@ -37,6 +41,7 @@ export const themes = {
 
 export const GlobalStyle = createGlobalStyle`
     * {
-        color: ${(props) => props.theme.black}
+        color: ${(props) => props.theme.black};
+        box-sizing: border-box;
     }
 `;

@@ -8,11 +8,13 @@ declare module "styled-components" {
         light: string;
         white: string;
         black: string;
-        lightmain: string;
-        main: string;
-        darkmain: string;
         blue: string;
         lightgreen: string;
         green: string;
+        cred: string;
+        cblue: string;
+        corange: string;
+        cpurple: string;
+        cgreen: string;
     }
 }

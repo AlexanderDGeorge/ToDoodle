@@ -1,29 +1,21 @@
 import { firestore, fieldValue } from "../firebase";
 
-export interface ToDoList {
+export interface List {
     id?: string;
     photoURL?: string;
     title: string;
+    color?: string;
     users: Array<string>;
     toDos?: Array<string>;
 }
 
-export interface ToDo {
-    id: string;
-    name: string;
-    done: boolean;
-    createdAt: Date;
-    deadline: Date;
-    completedBy: string;
-}
-
-export const createToDoList = async (toDoList: ToDoList) => {
+export const createList = async (list: List) => {
     const listRef = firestore.collection("lists");
     try {
         listRef.add({
-            ...toDoList,
+            ...list,
         });
-        toDoList.users.forEach(async (user) => {
+        list.users.forEach(async (user) => {
             const userRef = firestore.collection("users").doc(user);
             await userRef.update({
                 toDos: fieldValue.arrayUnion(listRef.id),
@@ -35,7 +27,7 @@ export const createToDoList = async (toDoList: ToDoList) => {
     }
 };
 
-export const fetchToDoList = async (listId: string) => {
+export const fetchList = async (listId: string) => {
     const listRef = firestore.collection("lists").doc(listId);
     try {
         const list = await listRef.get();
@@ -46,17 +38,17 @@ export const fetchToDoList = async (listId: string) => {
     }
 };
 
-export const updateToDoList = async (todoList: ToDoList) => {
-    const listRef = firestore.collection("lists").doc(todoList.id);
+export const updateList = async (list: List) => {
+    const listRef = firestore.collection("lists").doc(list.id);
     try {
-        await listRef.update(todoList);
+        await listRef.update(list);
         console.log("list update done.");
     } catch (error) {
         console.error(error.message);
     }
 };
 
-export const deleteToDoList = async (listId: string) => {
+export const deleteList = async (listId: string) => {
     const listRef = firestore.collection("lists").doc(listId);
     try {
         await listRef.delete();

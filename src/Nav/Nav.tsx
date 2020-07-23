@@ -1,12 +1,12 @@
 import React from "react";
 import SettingsMenu from "./SettingsMenu";
-import ToDoMenu from "../ToDo/ToDoMenu";
+import ListMenu from "../List/ListMenu";
 
 export default function Nav() {
     return (
         <div>
             <SettingsMenu bottomPosition="20px" />
-            <ToDoMenu bottomPosition="100px" />
+            <ListMenu bottomPosition="100px" />
         </div>
     );
 }

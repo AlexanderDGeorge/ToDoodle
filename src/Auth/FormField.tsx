@@ -5,7 +5,7 @@ import FormError from "./FormError";
 
 interface FormFieldProps {
     label: string;
-    style?: any;
+    style?: React.CSSProperties;
     state: string;
     setState: any;
     type: string;
