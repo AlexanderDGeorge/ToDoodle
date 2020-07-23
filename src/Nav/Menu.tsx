@@ -12,6 +12,7 @@ export default function Menu(props: MenuProps) {
     const [open, setOpen] = useState(false);
     const [menuSpring, setMenuSpring] = useSpring(() => ({
         transform: "translateX(0%)",
+        zIndex: 0,
     }));
 
     useEffect(() => {
@@ -25,14 +26,20 @@ export default function Menu(props: MenuProps) {
         return () => {
             document.removeEventListener("click", handleClick);
         };
-    }, [open]);
+    }, []);
 
     function toggleOpen() {
         if (open) {
-            setMenuSpring({ transform: "translateX(0%)" });
+            setMenuSpring({
+                transform: "translateX(0%)",
+                zIndex: 0,
+            });
             setOpen(false);
         } else {
-            setMenuSpring({ transform: "translateX(100%)" });
+            setMenuSpring({
+                transform: "translateX(100%)",
+                zIndex: 1,
+            });
             setOpen(true);
         }
     }
@@ -50,25 +57,31 @@ export default function Menu(props: MenuProps) {
     );
 }
 
-const MenuContainer = styled(animated.nav)`
+const MenuContainer = styled(animated.div)`
     position: fixed;
     top: 0;
     left: -80%;
     height: 100%;
     width: 80%;
-    background-color: ${(props) => props.theme.light};
     box-sizing: border-box;
     padding: 2%;
+    border-right: 3px solid ${(props) => props.theme.black};
+    background-color: ${(props) => props.theme.light};
 `;
 
 const MenuTab = styled.div`
     position: absolute;
     right: -70px;
     height: 70px;
-    width: 71px;
-    background-color: ${(props) => props.theme.light};
+    width: 70px;
+    box-sizing: border-box;
     border-radius: 0 50% 50% 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    background-color: inherit;
+    border-top: 3px solid ${(props) => props.theme.black};
+    border-right: 3px solid ${(props) => props.theme.black};
+    border-bottom: 3px solid ${(props) => props.theme.black};
 `;

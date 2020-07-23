@@ -20,6 +20,7 @@ firebase.analytics();
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const fieldValue = firebase.firestore.FieldValue;
 
 export async function fetchUser(uid: string) {
     const userRef = firestore.collection("users").doc(uid);

@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-
-const LandingWrapper = styled.div``;
+import SignUp from "../Auth/SignUp";
 
 export default function Landing() {
-    return <LandingWrapper></LandingWrapper>;
+    return (
+        <LandingWrapper>
+            <SignUp />
+        </LandingWrapper>
+    );
 }
+
+const LandingWrapper = styled.div``;

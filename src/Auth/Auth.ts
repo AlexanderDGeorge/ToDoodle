@@ -62,7 +62,10 @@ const createUserDocument = async (
 };
 
 const createUserDocumentFromGoogle = async (user: firebase.User) => {
-    if (!user) return;
+    function splitDisplayName(displayName: string | null) {
+        if (!displayName) return ["Not", "Found"];
+        return displayName.split(" ", 2);
+    }
     const userRef = firestore.collection("users").doc(user.uid);
     const { displayName, email, photoURL } = user;
     const fullName = splitDisplayName(displayName);
@@ -77,8 +80,3 @@ const createUserDocumentFromGoogle = async (user: firebase.User) => {
         toDos: [],
     });
 };
-
-function splitDisplayName(displayName: string | null) {
-    if (!displayName) return ["Not", "Found"];
-    return displayName.split(" ", 2);
-}

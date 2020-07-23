@@ -72,5 +72,5 @@ const AppDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ddd;
+    background-color: ${(props) => props.theme.light};
 `;
