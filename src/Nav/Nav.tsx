@@ -1,5 +1,5 @@
 import React from "react";
-import SettingsMenu from "./SettingsMenu";
+import SettingsMenu from "../Settings/SettingsMenu";
 import ListMenu from "../List/ListMenu";
 
 export default function Nav() {

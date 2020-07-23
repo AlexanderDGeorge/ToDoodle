@@ -19,5 +19,6 @@ const LargeButtonContainer = styled.button`
     width: 200px;
     border: 3px solid ${(props) => props.theme.black};
     font-size: 20px;
-    background-color: ${(props) => props.theme.accent};
+    background-color: ${(props) => props.theme.blue};
+    color: ${(props) => props.theme.white};
 `;

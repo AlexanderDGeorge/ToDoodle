@@ -10,7 +10,7 @@ export function Toggle({ toggle, setToggle, size = 30 }) {
         borderRadius: size,
     }));
     const [button, setButton] = useSpring(() => ({
-        left: -1,
+        left: -3,
         height: size,
         width: size,
     }));
@@ -20,7 +20,7 @@ export function Toggle({ toggle, setToggle, size = 30 }) {
         setBackground({
             backgroundColor: toggle ? "#aaaaaa" : "#69ce5f",
         });
-        setButton({ left: toggle ? -1 : size });
+        setButton({ left: toggle ? -3 : size });
     }
 
     return (
@@ -32,12 +32,12 @@ export function Toggle({ toggle, setToggle, size = 30 }) {
 
 const ToggleContainer = styled(animated.div)`
     position: relative;
-    border: 1px solid ${(props) => props.theme.dark};
+    border: 3px solid ${(props) => props.theme.dark};
     > div {
         position: absolute;
-        border: 1px solid ${(props) => props.theme.dark};
+        border: 3px solid ${(props) => props.theme.dark};
         border-radius: 50%;
-        bottom: -1px;
+        bottom: -3px;
         background-color: ${(props) => props.theme.white};
     }
 `;
