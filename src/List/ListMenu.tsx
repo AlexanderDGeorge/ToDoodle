@@ -1,71 +1,47 @@
-import React, { useState, useContext } from "react";
-import { useSpring, animated } from "react-spring";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import React, { useState, useEffect } from "react";
 import Menu from "../Nav/Menu";
-import { InputWithLabel, Label } from "../Components/Form";
+import { List, deleteList } from "./List";
+import ListIcon from "./ListIcon";
 import { LargeButton } from "../Components/Buttons";
-import { UserContext } from "../App";
-import { createList } from "./List";
+import { Label } from "../Components/Form";
+import { User, fetchUser } from "../User/User";
 import ListUserCard, { AddUserCard } from "./ListUserCard";
-import ListColorPicker from "./ListColorPicker";
 
-export default function ListMenu(props: { bottomPosition: String }) {
-    const currentUser = useContext(UserContext);
-    const [title, setTitle] = useState("");
-    const [photoURL, setPhotoURL] = useState("");
-    const [color, setColor] = useState("");
-    const [users, setUsers] = useState([currentUser.id]);
+export default function ListMenu(props: { bottomPostion: string; list: List }) {
+    const [users, setUsers] = useState<Array<User>>([]);
 
-    async function handleCreate() {
-        await createList({ title, photoURL, color, users });
-    }
+    useEffect(() => {
+        (async function fetchListUsers() {
+            setUsers([]);
+            props.list.users.forEach(async (user) => {
+                const importedUser = await fetchUser(user);
+                setUsers((users: any) => [...users, importedUser]);
+            });
+        })();
+    }, []);
 
-    function isDisabled() {
-        return !!!(title.length && color.length && users.length);
+    async function handleDelete() {
+        await deleteList(props.list);
     }
 
     return (
-        <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
-            <h1 style={{ marginBottom: 40 }}>Create a New List</h1>
-            <InputWithLabel
-                label="Title"
-                value={title}
-                setValue={setTitle}
-                type="text"
-            />
-            <ListColorPicker color={color} setColor={setColor} />
-            <div style={{ margin: "20px 0" }}>
+        <Menu
+            bottomPosition={props.bottomPostion}
+            icon={<ListIcon list={props.list} />}
+        >
+            <h1>{props.list.title}</h1>
+            <div>
                 <Label>Users</Label>
                 {users.map((user, i) => (
-                    <ListUserCard userId={user} setUsers={setUsers} key={i} />
+                    <ListUserCard
+                        userId={user.id}
+                        setUsers={setUsers}
+                        key={i}
+                    />
                 ))}
                 <AddUserCard />
             </div>
-            <LargeButton disabled={isDisabled()} onClick={handleCreate}>
-                Create List
-            </LargeButton>
+            <LargeButton onClick={handleDelete}>Delete List</LargeButton>
         </Menu>
-    );
-}
-
-function AddListIcon() {
-    const [rotate, setRotate] = useState(false);
-    const [spring, setSpring] = useSpring(() => ({
-        transform: "rotate(0deg)",
-    }));
-
-    function handleClick() {
-        if (rotate) {
-            setRotate(false);
-            setSpring({ transform: "rotate(0deg)" });
-        } else {
-            setRotate(true);
-            setSpring({ transform: "rotate(360deg)" });
-        }
-    }
-    return (
-        <animated.div style={spring} onClick={handleClick}>
-            <AiOutlinePlusCircle style={{ height: 40, width: "auto" }} />
-        </animated.div>
     );
 }
