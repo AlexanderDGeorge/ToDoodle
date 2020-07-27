@@ -2,9 +2,9 @@ import { firestore, fieldValue } from "../firebase";
 
 export interface List {
     id?: string;
-    photoURL?: string;
     title: string;
-    color?: string;
+    photoURL?: string;
+    color: string;
     users: Array<string>;
     toDos?: Array<string>;
 }

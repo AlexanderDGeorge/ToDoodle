@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useContext } from "react";
 import { useSpring, animated } from "react-spring";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Menu from "../Nav/Menu";
 import { InputWithLabel, Label } from "../Components/Form";
 import { LargeButton } from "../Components/Buttons";
+import { UserContext } from "../App";
+import { createList } from "./List";
+import ListUserCard, { AddUserCard } from "./ListUserCard";
+import ListColorPicker from "./ListColorPicker";
 
 export default function ListMenu(props: { bottomPosition: String }) {
+    const currentUser = useContext(UserContext);
     const [title, setTitle] = useState("");
+    const [photoURL, setPhotoURL] = useState("");
     const [color, setColor] = useState("");
+    const [users, setUsers] = useState([currentUser.id]);
 
-    function handleCreate() {}
+    async function handleCreate() {
+        await createList({ title, photoURL, color, users });
+    }
+
+    function isDisabled() {
+        return !!!(title.length && color.length && users.length);
+    }
 
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
@@ -21,23 +33,19 @@ export default function ListMenu(props: { bottomPosition: String }) {
                 setValue={setTitle}
                 type="text"
             />
+            <ListColorPicker color={color} setColor={setColor} />
             <div style={{ margin: "20px 0" }}>
-                <Label>Colors</Label>
-                <ColorsContainer>
-                    <ColorItem hex="#c81927" />
-                    <ColorItem hex="#1885f2" />
-                    <ColorItem hex="#ed8607" />
-                    <ColorItem hex="#514ebc" />
-                    <ColorItem hex="#00a344" />
-                </ColorsContainer>
+                <Label>Users</Label>
+                {users.map((user, i) => (
+                    <ListUserCard userId={user} setUsers={setUsers} key={i} />
+                ))}
+                <AddUserCard />
             </div>
-            <LargeButton onClick={handleCreate}>Create List</LargeButton>
+            <LargeButton disabled={isDisabled()} onClick={handleCreate}>
+                Create List
+            </LargeButton>
         </Menu>
     );
-}
-
-function ColorItem(props: { hex: string }) {
-    return <ColorItemContainer style={{ backgroundColor: props.hex }} />;
 }
 
 function AddListIcon() {
@@ -61,17 +69,3 @@ function AddListIcon() {
         </animated.div>
     );
 }
-
-const ColorsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-`;
-
-const ColorItemContainer = styled.div`
-    height: 40px;
-    width: 40px;
-    margin: 10px;
-    border: 3px solid ${(props) => props.theme.black};
-    border-radius: 50%;
-`;

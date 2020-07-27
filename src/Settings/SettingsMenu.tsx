@@ -7,13 +7,15 @@ import { ThemeContext, UserContext } from "../App";
 import { Toggle } from "../Components/Toggle";
 import { LargeButton } from "../Components/Buttons";
 import { auth } from "../firebase";
+import { UserCard } from "../User/UserComponents";
 
 export default function SettingsMenu(props: { bottomPosition: String }) {
+    const currentUser = useContext(UserContext);
     const { darkMode, setDarkMode } = useContext(ThemeContext);
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<SettingsMenuIcon />}>
             <h1>Settings</h1>
-            <UserCard />
+            <UserCard user={currentUser} />
             <MenuItem>
                 <h4>Dark Mode</h4>
                 <Toggle toggle={darkMode} setToggle={setDarkMode} />
@@ -26,20 +28,6 @@ export default function SettingsMenu(props: { bottomPosition: String }) {
                 Logout
             </LargeButton>
         </Menu>
-    );
-}
-
-function UserCard() {
-    const currentUser = useContext(UserContext);
-
-    return (
-        <UserCardContainer>
-            <img src={currentUser?.photoURL} alt="" />
-            <div>
-                <p>{currentUser?.firstName}</p>
-                <p>{currentUser?.lastName}</p>
-            </div>
-        </UserCardContainer>
     );
 }
 
@@ -73,28 +61,4 @@ const MenuItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-`;
-
-const UserCardContainer = styled.div`
-    height: 100px;
-    min-width: 200px;
-    width: 100%;
-    max-width: 400px;
-    border: 3px solid ${(props) => props.theme.black};
-    display: flex;
-    justify-content: space-between;
-    > img {
-        height: 100%;
-        width: auto;
-    }
-    > div {
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: flex-start;
-        > * {
-            margin: 0;
-        }
-    }
 `;

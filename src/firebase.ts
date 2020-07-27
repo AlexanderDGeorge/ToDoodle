@@ -21,19 +21,3 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const fieldValue = firebase.firestore.FieldValue;
-
-export async function fetchUser(uid: string) {
-    const userRef = firestore.collection("users").doc(uid);
-    const user = (await userRef.get()).data();
-    // return user ? Object.assign({ id: uid }, user) : null;
-    return user
-        ? {
-              id: uid,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-              photoURL: user.photoURL,
-              toDos: user.toDos,
-          }
-        : null;
-}

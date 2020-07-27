@@ -4,11 +4,16 @@ import styled from "styled-components";
 interface ButtonProps {
     children: ReactNode;
     onClick: Function;
+    disabled?: boolean;
 }
 
 export function LargeButton(props: ButtonProps) {
     return (
-        <LargeButtonContainer onClick={() => props.onClick()}>
+        <LargeButtonContainer
+            disabled={props?.disabled}
+            onClick={() => props.onClick()}
+            style={props?.disabled ? { backgroundColor: "gray" } : {}}
+        >
             {props.children}
         </LargeButtonContainer>
     );
