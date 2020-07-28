@@ -6,7 +6,7 @@ export interface User {
     lastName: string;
     photoURL: string;
     email: string;
-    toDos: Array<string>;
+    lists: Array<string>;
 }
 
 export const InitialUser = {
@@ -15,7 +15,7 @@ export const InitialUser = {
     lastName: "",
     email: "",
     photoURL: "",
-    toDos: [],
+    lists: [],
 };
 
 export async function fetchUser(uid: string) {
@@ -29,7 +29,7 @@ export async function fetchUser(uid: string) {
                   lastName: user.lastName,
                   email: user.email,
                   photoURL: user.photoURL,
-                  toDos: user.toDos,
+                  lists: user.lists,
               }
             : undefined;
     } catch (error) {

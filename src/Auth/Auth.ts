@@ -56,7 +56,7 @@ const createUserDocument = async (
         email,
         photoURL:
             "https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg",
-        toDos: [],
+        lists: [],
     });
     return (await userRef.get()).data();
 };
@@ -77,6 +77,6 @@ const createUserDocumentFromGoogle = async (user: firebase.User) => {
         lastName,
         email,
         photoURL,
-        toDos: [],
+        lists: [],
     });
 };

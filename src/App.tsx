@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { themes, GlobalStyle } from "./theme";
-import { auth } from "./firebase";
+import { auth, firestore } from "./firebase";
 import Landing from "./Pages/Landing";
 import Router from "./Router";
-import { User, InitialUser, fetchUser } from "./User/User";
+import { User, InitialUser } from "./User/User";
 import { List } from "./List/List";
 
 interface IThemeContext {
@@ -30,15 +30,32 @@ export default function App() {
     const [currentList, setCurrentList] = useState<List | null>(null);
 
     useEffect(() => {
+        let unsubscribe: Function;
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                const fetchedUser = await fetchUser(user.uid);
-                if (fetchedUser) {
-                    console.log(fetchedUser);
-                    setCurrentUser(fetchedUser);
-                }
+                unsubscribe = firestore
+                    .collection("users")
+                    .doc(user.uid)
+                    .onSnapshot((snapshot) => {
+                        if (snapshot.exists) {
+                            const data = snapshot.data();
+                            if (data) {
+                                setCurrentUser({
+                                    id: snapshot.id,
+                                    firstName: data.firstName,
+                                    lastName: data.lastName,
+                                    email: data.email,
+                                    photoURL: data.photoURL,
+                                    lists: data.lists,
+                                });
+                            }
+                        }
+                    });
             }
         });
+        return () => {
+            unsubscribe();
+        };
     }, []);
 
     console.log(currentUser);

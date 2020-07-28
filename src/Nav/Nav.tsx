@@ -12,7 +12,7 @@ export default function Nav() {
     useEffect(() => {
         (function fetchLists() {
             setLists([]);
-            currentUser.toDos.forEach(async (list) => {
+            currentUser.lists.forEach(async (list) => {
                 const importedList = await fetchList(list);
                 setLists((lists: any) => [...lists, importedList]);
             });
