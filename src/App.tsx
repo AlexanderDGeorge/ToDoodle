@@ -4,8 +4,8 @@ import { themes, GlobalStyle } from "./theme";
 import { auth, firestore } from "./firebase";
 import Landing from "./Pages/Landing";
 import Router from "./Router";
-import { User, InitialUser } from "./User/User";
-import { List } from "./List/List";
+import { User, initialUser } from "./User/User";
+import { List, initialList } from "./List/List";
 
 interface IThemeContext {
     darkMode: boolean;
@@ -13,22 +13,26 @@ interface IThemeContext {
 }
 
 interface IListContext {
-    currentList: List | null;
+    currentList: List;
     setCurrentList: Function;
 }
 
-export const UserContext = createContext<User>(InitialUser);
-export const ListContext = createContext<IListContext | null>(null);
+export const UserContext = createContext<User>(initialUser);
+export const ListContext = createContext<IListContext>({
+    currentList: initialList,
+    setCurrentList: () => {},
+});
 export const ThemeContext = createContext<IThemeContext>({
     darkMode: false,
     setDarkMode: () => {},
 });
 
 export default function App() {
-    const [currentUser, setCurrentUser] = useState<User>(InitialUser);
+    const [currentUser, setCurrentUser] = useState<User>(initialUser);
+    const [currentList, setCurrentList] = useState<List>(initialList);
     const [darkMode, setDarkMode] = useState(false);
-    const [currentList, setCurrentList] = useState<List | null>(null);
 
+    console.log(currentList);
     useEffect(() => {
         let unsubscribe: Function;
         auth.onAuthStateChanged(async (user) => {
@@ -57,8 +61,6 @@ export default function App() {
             unsubscribe();
         };
     }, []);
-
-    console.log(currentUser);
 
     if (auth.currentUser) {
         return (

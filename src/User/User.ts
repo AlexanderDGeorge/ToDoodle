@@ -9,7 +9,7 @@ export interface User {
     lists: Array<string>;
 }
 
-export const InitialUser = {
+export const initialUser = {
     id: "",
     firstName: "",
     lastName: "",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, createContext } from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 
@@ -8,6 +8,8 @@ interface MenuProps {
     bottomPosition: String;
 }
 
+export const MenuContext = createContext<Function | null>(null);
+
 export default function Menu(props: MenuProps) {
     const [open, setOpen] = useState(false);
     const [menuSpring, setMenuSpring] = useSpring(() => ({
@@ -15,18 +17,18 @@ export default function Menu(props: MenuProps) {
         zIndex: 0,
     }));
 
-    useEffect(() => {
-        const container = document.getElementById("MenuContainer");
-        function handleClick(e: any) {
-            if (open && e.target !== container) {
-                toggleOpen();
-            }
-        }
-        document.addEventListener("click", handleClick);
-        return () => {
-            document.removeEventListener("click", handleClick);
-        };
-    });
+    // useEffect(() => {
+    //     const container = document.getElementById("MenuContainer");
+    //     function handleClick(e: any) {
+    //         if (open && e.target !== container) {
+    //             toggleOpen();
+    //         }
+    //     }
+    //     document.addEventListener("click", handleClick);
+    //     return () => {
+    //         document.removeEventListener("click", handleClick);
+    //     };
+    // });
 
     function toggleOpen() {
         if (open) {
@@ -52,7 +54,9 @@ export default function Menu(props: MenuProps) {
             >
                 {props.icon}
             </MenuTab>
-            {props.children}
+            <MenuContext.Provider value={toggleOpen}>
+                {props.children}
+            </MenuContext.Provider>
         </MenuContainer>
     );
 }

@@ -3,11 +3,20 @@ import { firestore, fieldValue, storageRef } from "../firebase";
 export interface List {
     id?: string;
     title: string;
-    photoURL?: string;
+    photoURL: string;
     color: string;
     users: Array<string>;
-    lists?: Array<string>;
+    toDos: Array<string>;
 }
+
+export const initialList: List = {
+    id: "",
+    title: "",
+    photoURL: "",
+    color: "",
+    users: [],
+    toDos: [],
+};
 
 export const createList = async (list: List) => {
     const listRef = firestore.collection("lists");

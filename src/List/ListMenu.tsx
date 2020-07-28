@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import Menu from "../Nav/Menu";
+import Menu, { MenuContext } from "../Nav/Menu";
 import { List, deleteList } from "./List";
 import ListIcon from "./ListIcon";
 import { LargeButton } from "../Components/Buttons";
 import { Label } from "../Components/Form";
 import { User, fetchUser } from "../User/User";
 import ListUserCard, { AddUserCard } from "./ListUserCard";
+import { ListContext } from "../App";
 
 export default function ListMenu(props: { bottomPostion: string; list: List }) {
+    const { setCurrentList } = useContext(ListContext);
+    const toggleOpen = useContext(MenuContext);
     const [users, setUsers] = useState<Array<User>>([]);
     const history = useHistory();
 
@@ -23,10 +26,13 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
     }, [props.list.users]);
 
     function handleView() {
-        history.replace(`/lists/${props.list.id}`);
+        history.replace("/list");
+        setCurrentList(props.list);
+        // [TODO] close menu
     }
 
     async function handleDelete() {
+        if (toggleOpen) toggleOpen();
         await deleteList(props.list);
     }
 

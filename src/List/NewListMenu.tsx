@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSpring, animated } from "react-spring";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import Menu from "../Nav/Menu";
+import Menu, { MenuContext } from "../Nav/Menu";
 import { InputWithLabel, Label } from "../Components/Form";
 import { LargeButton } from "../Components/Buttons";
 import { UserContext } from "../App";
@@ -12,6 +12,7 @@ import HorDivWithOr from "../Components/Dividers";
 import PhotoUpload from "./PhotoUpload";
 
 export default function NewListMenu(props: { bottomPosition: String }) {
+    const toggleOpen = useContext(MenuContext);
     const currentUser = useContext(UserContext);
     const [title, setTitle] = useState("");
     const [photoURL, setPhotoURL] = useState<File | null>(null);
@@ -19,11 +20,12 @@ export default function NewListMenu(props: { bottomPosition: String }) {
     const [users, setUsers] = useState([currentUser.id]);
 
     async function handleCreate() {
+        if (toggleOpen) toggleOpen();
         if (photoURL) {
             const url = await uploadListPhoto(photoURL);
-            await createList({ title, photoURL: url, color, users });
+            await createList({ title, photoURL: url, color, users, toDos: [] });
         }
-        await createList({ title, color, users });
+        await createList({ title, photoURL: "", color, users, toDos: [] });
     }
 
     function isDisabled() {
