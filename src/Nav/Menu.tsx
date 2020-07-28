@@ -18,9 +18,8 @@ export default function Menu(props: MenuProps) {
     }));
 
     // useEffect(() => {
-    //     const container = document.getElementById("MenuContainer");
     //     function handleClick(e: any) {
-    //         if (open && e.target !== container) {
+    //         if (!menuRef.current.contains(e.target)) {
     //             toggleOpen();
     //         }
     //     }

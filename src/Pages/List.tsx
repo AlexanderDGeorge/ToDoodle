@@ -11,24 +11,27 @@ export default function List() {
     const [toDos, setToDos] = useState([]);
 
     useEffect(() => {
-        const unsubscribe = firestore
-            .collection("lists")
-            .doc(currentList.id)
-            .onSnapshot((snapshot) => {
-                if (snapshot.exists) {
-                    const data = snapshot.data();
-                    if (data) {
-                        console.log(data);
-                        setToDos([]);
+        let unsubscribe: Function = () => {};
+        if (currentList.id?.length) {
+            unsubscribe = firestore
+                .collection("lists")
+                .doc(currentList.id)
+                .onSnapshot((snapshot) => {
+                    if (snapshot.exists) {
+                        const data = snapshot.data();
+                        if (data) {
+                            console.log(data);
+                            setToDos([]);
+                        }
                     }
-                }
-            });
+                });
+        }
         return () => {
             unsubscribe();
         };
-    }, [currentList.id]);
+    }, [currentList]);
 
-    if (currentList.id) {
+    if (currentList.id?.length) {
         return (
             <ListContainer>
                 <h1>{currentList.title}</h1>

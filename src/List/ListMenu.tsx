@@ -10,7 +10,7 @@ import ListUserCard, { AddUserCard } from "./ListUserCard";
 import { ListContext } from "../App";
 
 export default function ListMenu(props: { bottomPostion: string; list: List }) {
-    const { setCurrentList } = useContext(ListContext);
+    const listContext = useContext(ListContext);
     const toggleOpen = useContext(MenuContext);
     const [users, setUsers] = useState<Array<User>>([]);
     const history = useHistory();
@@ -27,7 +27,7 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
 
     function handleView() {
         history.replace("/list");
-        setCurrentList(props.list);
+        listContext?.setCurrentList(props.list);
         // [TODO] close menu
     }
 
