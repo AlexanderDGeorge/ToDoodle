@@ -1,4 +1,4 @@
-import { firestore, fieldValue } from "../firebase";
+import { firestore, fieldValue, storageRef } from "../firebase";
 
 export interface List {
     id?: string;
@@ -68,18 +68,12 @@ export const deleteList = async (list: List) => {
     }
 };
 
-// export const uploadListPhoto = async (file: any, listId: string) => {
-//     return storageRef
-//         .child(`listImages/${file}`)
-//         .put(file)
-//         .then(async (snapshot) => {
-//             await snapshot.ref
-//                 .getDownloadURL()
-//                 .then(async function (downloadURL) {
-//                     const listRef = firestore.collection("lists").doc(listId);
-//                     listRef.update({
-//                         photoURL: downloadURL,
-//                     });
-//                 });
-//         });
-// };
+export const uploadListPhoto = async (file: File) => {
+    return storageRef
+        .child(`listImages/${file}`)
+        .put(file)
+        .then(async (snapshot) => {
+            const url = await snapshot.ref.getDownloadURL();
+            return url;
+        });
+};

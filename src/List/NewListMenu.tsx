@@ -5,7 +5,7 @@ import Menu from "../Nav/Menu";
 import { InputWithLabel, Label } from "../Components/Form";
 import { LargeButton } from "../Components/Buttons";
 import { UserContext } from "../App";
-import { createList } from "./List";
+import { createList, uploadListPhoto } from "./List";
 import ListUserCard, { AddUserCard } from "./ListUserCard";
 import ListColorPicker from "./ListColorPicker";
 import HorDivWithOr from "../Components/Dividers";
@@ -14,19 +14,21 @@ import PhotoUpload from "./PhotoUpload";
 export default function NewListMenu(props: { bottomPosition: String }) {
     const currentUser = useContext(UserContext);
     const [title, setTitle] = useState("");
-    const [photoURL, setPhotoURL] = useState("");
+    const [photoURL, setPhotoURL] = useState<File | null>(null);
     const [color, setColor] = useState("");
     const [users, setUsers] = useState([currentUser.id]);
 
     async function handleCreate() {
-        await createList({ title, photoURL, color, users });
+        if (photoURL) {
+            const url = await uploadListPhoto(photoURL);
+            await createList({ title, photoURL: url, color, users });
+        }
+        await createList({ title, color, users });
     }
 
     function isDisabled() {
-        return !!!(title.length && color.length && users.length);
+        return !!!(title.length && (color.length || photoURL) && users.length);
     }
-
-    function handlePhotoUpload() {}
 
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>

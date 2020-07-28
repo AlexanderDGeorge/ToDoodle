@@ -11,22 +11,25 @@ interface PhotoUploadProps {
 
 export default function PhotoUpload(props: PhotoUploadProps) {
     const [previews, setPreviews] = useState<Array<string>>([]);
+    const [files, setFiles] = useState<Array<File>>([]);
     const [active, setActive] = useState<number | null>(null);
     const [image] = useState("");
 
     function handleChange(e: any) {
         if (e.target.files.length) {
-            props.setPhotoURL(e.target.files[0]);
+            const curFile = e.target.files[0];
+            props.setPhotoURL(curFile);
+            setFiles((files) => [...files, curFile]);
             setPreviews((previews) => [
                 ...previews,
-                window.URL.createObjectURL(e.target.files[0]),
+                window.URL.createObjectURL(curFile),
             ]);
             setActive(previews.length);
         }
     }
 
     function handlePreviewClick(i: number) {
-        props.setPhotoURL(previews[i]);
+        props.setPhotoURL(files[i]);
         props.setColor("");
         setActive(i);
     }
