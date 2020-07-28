@@ -43,7 +43,11 @@ export default function NewListMenu(props: { bottomPosition: String }) {
                 setPhotoURL={setPhotoURL}
             />
             <HorDivWithOr />
-            <PhotoUpload setPhotoURL={setPhotoURL} />
+            <PhotoUpload
+                color={color}
+                setPhotoURL={setPhotoURL}
+                setColor={setColor}
+            />
             <div style={{ margin: "20px 0" }}>
                 <Label>Users</Label>
                 {users.map((user, i) => (

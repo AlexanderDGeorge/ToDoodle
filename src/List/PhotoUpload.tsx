@@ -3,7 +3,13 @@ import styled from "styled-components";
 import { AiOutlineCamera } from "react-icons/ai";
 import { Label } from "../Components/Form";
 
-export default function PhotoUpload(props: { setPhotoURL: Function }) {
+interface PhotoUploadProps {
+    color: string;
+    setColor: Function;
+    setPhotoURL: Function;
+}
+
+export default function PhotoUpload(props: PhotoUploadProps) {
     const [previews, setPreviews] = useState<Array<string>>([]);
     const [active, setActive] = useState<number | null>(null);
     const [image] = useState("");
@@ -21,10 +27,9 @@ export default function PhotoUpload(props: { setPhotoURL: Function }) {
 
     function handlePreviewClick(i: number) {
         props.setPhotoURL(previews[i]);
+        props.setColor("");
         setActive(i);
     }
-
-    console.log(active);
 
     return (
         <PhotoUploadContainer>
@@ -41,27 +46,22 @@ export default function PhotoUpload(props: { setPhotoURL: Function }) {
                     onChange={handleChange}
                     style={{ display: "none" }}
                 />
-                {previews.map((preview, i) => {
-                    console.log(i);
-                    console.log(active);
-                    return (
-                        <PhotoPreview
-                            key={i}
-                            style={
-                                active === i
-                                    ? {
-                                          backgroundImage: `url(${preview})`,
-                                          border: "3px solid #00073bb",
-                                      }
-                                    : {
-                                          backgroundImage: `url(${preview})`,
-                                          border: "3px solid #00073bb",
-                                      }
-                            }
-                            onClick={() => handlePreviewClick(i)}
-                        />
-                    );
-                })}
+                {previews.map((preview, i) => (
+                    <PhotoPreview
+                        key={i}
+                        style={
+                            active === i && !props.color
+                                ? {
+                                      backgroundImage: `url(${preview})`,
+                                      border: "3px solid #0073bb",
+                                  }
+                                : {
+                                      backgroundImage: `url(${preview})`,
+                                  }
+                        }
+                        onClick={() => handlePreviewClick(i)}
+                    />
+                ))}
             </div>
         </PhotoUploadContainer>
     );
@@ -90,7 +90,7 @@ const PhotoPreview = styled.div`
     height: 40px;
     width: 40px;
     margin: 0 10px;
-    /* border: 3px solid ${(props) => props.theme.black}; */
+    border: 3px solid ${(props) => props.theme.black};
     border-radius: 50%;
     background-position: 50%;
     background-size: cover;
