@@ -10,4 +10,7 @@ export default function Landing() {
     );
 }
 
-const LandingWrapper = styled.div``;
+const LandingWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`;

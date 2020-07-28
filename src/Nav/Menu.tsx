@@ -1,9 +1,9 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 
 interface MenuProps {
-    children: ReactNode;
+    children: React.ReactNode;
     icon: JSX.Element;
     bottomPosition: String;
 }

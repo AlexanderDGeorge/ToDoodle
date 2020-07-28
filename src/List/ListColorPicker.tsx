@@ -5,9 +5,15 @@ import { Label } from "../Components/Form";
 interface ListColorPickerProps {
     color: string;
     setColor: Function;
+    setPhotoURL: Function;
 }
 
 export default function ListColorPicker(props: ListColorPickerProps) {
+    function handleColorPick(hex: string) {
+        props.setPhotoURL("");
+        props.setColor(hex);
+    }
+
     return (
         <div style={{ margin: "20px 0" }}>
             <Label>Pick a Color</Label>
@@ -21,7 +27,7 @@ export default function ListColorPicker(props: ListColorPickerProps) {
                               }
                             : { backgroundColor: "#c81927" }
                     }
-                    onClick={() => props.setColor("#c81927")}
+                    onClick={() => handleColorPick("#c81927")}
                 />
                 <ColorItem
                     style={
@@ -32,7 +38,7 @@ export default function ListColorPicker(props: ListColorPickerProps) {
                               }
                             : { backgroundColor: "#1885f2" }
                     }
-                    onClick={() => props.setColor("#1885f2")}
+                    onClick={() => handleColorPick("#1885f2")}
                 />
                 <ColorItem
                     style={
@@ -43,7 +49,7 @@ export default function ListColorPicker(props: ListColorPickerProps) {
                               }
                             : { backgroundColor: "#ed8607" }
                     }
-                    onClick={() => props.setColor("#ed8607")}
+                    onClick={() => handleColorPick("#ed8607")}
                 />
                 <ColorItem
                     style={
@@ -54,7 +60,7 @@ export default function ListColorPicker(props: ListColorPickerProps) {
                               }
                             : { backgroundColor: "#514ebc" }
                     }
-                    onClick={() => props.setColor("#514ebc")}
+                    onClick={() => handleColorPick("#514ebc")}
                 />
                 <ColorItem
                     style={
@@ -65,7 +71,7 @@ export default function ListColorPicker(props: ListColorPickerProps) {
                               }
                             : { backgroundColor: "#00a344" }
                     }
-                    onClick={() => props.setColor("#00a344")}
+                    onClick={() => handleColorPick("#00a344")}
                 />
             </ColorsContainer>
         </div>

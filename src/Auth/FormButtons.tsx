@@ -2,11 +2,12 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FaGoogle } from "react-icons/fa";
 import { signInWithGoogle, signUp } from "./Auth";
-import { FormContext, ValuesContext } from "./Form";
+import { ValuesContext } from "./Form";
 import Loader from "../Components/Loader";
+import { LargeButton } from "../Components/Buttons";
 
 export function SignUpButton() {
-    const { valid } = useContext(FormContext);
+    // const { valid } = useContext(FormContext);
     const values = useContext(ValuesContext);
     const [loading, setLoading] = useState(false);
 
@@ -17,14 +18,12 @@ export function SignUpButton() {
     }
 
     return (
-        <FormButtonWrapper
-            style={{ backgroundColor: "#46b01c" }}
-            type="submit"
+        <LargeButton
+            // style={{ backgroundColor: "#46b01c" }}
             onClick={handleSignUp}
-            // disabled={valid ? false : true}
         >
             {loading ? <Loader /> : "Sign Up"}
-        </FormButtonWrapper>
+        </LargeButton>
     );
 }
 
@@ -34,10 +33,10 @@ export function LogInButton() {
 
 export function GoogleButton() {
     return (
-        <FormButtonWrapper onClick={signInWithGoogle}>
+        <LargeButton onClick={signInWithGoogle}>
             <FaGoogle />
             Continue with Google
-        </FormButtonWrapper>
+        </LargeButton>
     );
 }
 

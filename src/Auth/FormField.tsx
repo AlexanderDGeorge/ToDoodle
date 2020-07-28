@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useSpring, animated } from "react-spring";
 import FormError from "./FormError";
+import { InputWithLabel } from "../Components/Form";
 
 interface FormFieldProps {
     label: string;
@@ -16,13 +16,7 @@ interface FormFieldProps {
 
 export default function FormField(props: FormFieldProps) {
     const { label, style, state, setState, type, required, min, max } = props;
-    const initialState = {
-        color: "#999",
-        transform: "translateY(0px)",
-        fontWeight: 500,
-    };
     const [error, setError] = useState("");
-    const [spring, setSpring] = useSpring(() => initialState);
 
     function validateEmail(email: string) {
         const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,33 +37,13 @@ export default function FormField(props: FormFieldProps) {
         }
     }
 
-    function handleFocus() {
-        setSpring({
-            color: "black",
-            transform: "translateY(-30px)",
-            fontWeight: 600,
-        });
-    }
-
-    function handleBlur() {
-        errorCheck();
-        if (state) return;
-        setSpring(initialState);
-    }
-
     return (
         <FormFieldWrapper style={style}>
-            <animated.label style={spring} htmlFor={label}>
-                {label}
-            </animated.label>
-            <input
-                type={type}
-                name={label}
+            <InputWithLabel
+                label={label}
                 value={state}
-                onChange={(e) => setState(e.target.value)}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                style={error ? { border: "1px solid #cc0000" } : {}}
+                setValue={setState}
+                type={type}
             />
             <FormError error={error} />
         </FormFieldWrapper>
@@ -79,31 +53,11 @@ export default function FormField(props: FormFieldProps) {
 const FormFieldWrapper = styled.div`
     min-width: 200px;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 20px;
     background-color: white;
     border-radius: 10px;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    > * {
-        font-size: 16px;
-    }
-    > label {
-        position: absolute;
-        padding: 10px;
-    }
-    > input {
-        width: 100%;
-        z-index: 1;
-        box-sizing: border-box;
-        outline: none;
-        border-radius: 10px;
-        padding: 10px;
-        background-color: transparent;
-        border: 1px solid black;
-        &:focus {
-            border: 1px solid #0000ee;
-        }
-    }
 `;

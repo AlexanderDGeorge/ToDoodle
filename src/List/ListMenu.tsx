@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Menu from "../Nav/Menu";
 import { List, deleteList } from "./List";
 import ListIcon from "./ListIcon";
@@ -9,6 +10,7 @@ import ListUserCard, { AddUserCard } from "./ListUserCard";
 
 export default function ListMenu(props: { bottomPostion: string; list: List }) {
     const [users, setUsers] = useState<Array<User>>([]);
+    const history = useHistory();
 
     useEffect(() => {
         (async function fetchListUsers() {
@@ -20,6 +22,10 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
         })();
     }, []);
 
+    function handleView() {
+        history.replace(`/lists/${props.list.id}`);
+    }
+
     async function handleDelete() {
         await deleteList(props.list);
     }
@@ -30,7 +36,8 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
             icon={<ListIcon list={props.list} />}
         >
             <h1>{props.list.title}</h1>
-            <div>
+            <LargeButton onClick={handleView}>View List</LargeButton>
+            <div style={{ marginTop: 10 }}>
                 <Label>Users</Label>
                 {users.map((user, i) => (
                     <ListUserCard

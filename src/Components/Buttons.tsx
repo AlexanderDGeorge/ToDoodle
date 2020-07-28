@@ -21,9 +21,21 @@ export function LargeButton(props: ButtonProps) {
 
 const LargeButtonContainer = styled.button`
     height: 60px;
-    width: 200px;
+    width: 230px;
     border: 3px solid ${(props) => props.theme.black};
     font-size: 20px;
     background-color: ${(props) => props.theme.blue};
-    color: ${(props) => props.theme.white};
+    color: white;
+    cursor: pointer;
+`;
+
+export function SmallButton(props: ButtonProps) {
+    return <SmallButtonContainer>{props.children}</SmallButtonContainer>;
+}
+
+const SmallButtonContainer = styled.button`
+    height: 60px;
+    width: 60px;
+    border: 3px solid ${(props) => props.theme.black};
+    cursor: pointer;
 `;

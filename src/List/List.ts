@@ -67,3 +67,19 @@ export const deleteList = async (list: List) => {
         console.error(error.message);
     }
 };
+
+// export const uploadListPhoto = async (file: any, listId: string) => {
+//     return storageRef
+//         .child(`listImages/${file}`)
+//         .put(file)
+//         .then(async (snapshot) => {
+//             await snapshot.ref
+//                 .getDownloadURL()
+//                 .then(async function (downloadURL) {
+//                     const listRef = firestore.collection("lists").doc(listId);
+//                     listRef.update({
+//                         photoURL: downloadURL,
+//                     });
+//                 });
+//         });
+// };

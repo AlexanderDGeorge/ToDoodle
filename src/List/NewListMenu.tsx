@@ -8,6 +8,8 @@ import { UserContext } from "../App";
 import { createList } from "./List";
 import ListUserCard, { AddUserCard } from "./ListUserCard";
 import ListColorPicker from "./ListColorPicker";
+import HorDivWithOr from "../Components/Dividers";
+import PhotoUpload from "./PhotoUpload";
 
 export default function NewListMenu(props: { bottomPosition: String }) {
     const currentUser = useContext(UserContext);
@@ -24,6 +26,8 @@ export default function NewListMenu(props: { bottomPosition: String }) {
         return !!!(title.length && color.length && users.length);
     }
 
+    function handlePhotoUpload() {}
+
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
             <h1 style={{ marginBottom: 40 }}>Create a New List</h1>
@@ -33,7 +37,13 @@ export default function NewListMenu(props: { bottomPosition: String }) {
                 setValue={setTitle}
                 type="text"
             />
-            <ListColorPicker color={color} setColor={setColor} />
+            <ListColorPicker
+                color={color}
+                setColor={setColor}
+                setPhotoURL={setPhotoURL}
+            />
+            <HorDivWithOr />
+            <PhotoUpload setPhotoURL={setPhotoURL} />
             <div style={{ margin: "20px 0" }}>
                 <Label>Users</Label>
                 {users.map((user, i) => (

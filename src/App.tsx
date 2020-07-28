@@ -5,13 +5,20 @@ import { auth } from "./firebase";
 import Landing from "./Pages/Landing";
 import Router from "./Router";
 import { User, InitialUser, fetchUser } from "./User/User";
+import { List } from "./List/List";
 
 interface IThemeContext {
     darkMode: boolean;
     setDarkMode: Function;
 }
 
+interface IListContext {
+    currentList: List | null;
+    setCurrentList: Function;
+}
+
 export const UserContext = createContext<User>(InitialUser);
+export const ListContext = createContext<IListContext | null>(null);
 export const ThemeContext = createContext<IThemeContext>({
     darkMode: false,
     setDarkMode: () => {},
@@ -20,6 +27,7 @@ export const ThemeContext = createContext<IThemeContext>({
 export default function App() {
     const [currentUser, setCurrentUser] = useState<User>(InitialUser);
     const [darkMode, setDarkMode] = useState(false);
+    const [currentList, setCurrentList] = useState<List | null>(null);
 
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
@@ -43,9 +51,13 @@ export default function App() {
                 >
                     <GlobalStyle />
                     <UserContext.Provider value={currentUser}>
-                        <AppDiv>
-                            <Router />
-                        </AppDiv>
+                        <ListContext.Provider
+                            value={{ currentList, setCurrentList }}
+                        >
+                            <AppDiv>
+                                <Router />
+                            </AppDiv>
+                        </ListContext.Provider>
                     </UserContext.Provider>
                 </ThemeProvider>
             </ThemeContext.Provider>

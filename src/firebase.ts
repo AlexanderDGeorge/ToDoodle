@@ -19,5 +19,6 @@ firebase.analytics();
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+// export const storageRef = firebase.storage().ref();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const fieldValue = firebase.firestore.FieldValue;

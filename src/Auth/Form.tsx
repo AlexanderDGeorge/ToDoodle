@@ -32,20 +32,16 @@ export default function Form(props: FormProps) {
     return (
         <FormContext.Provider value={{ errors, setErrors, valid, setValid }}>
             <ValuesContext.Provider value={props.formInfo}>
-                <FormWrapper>{props.children}</FormWrapper>;
+                <FormContainer>{props.children}</FormContainer>
             </ValuesContext.Provider>
         </FormContext.Provider>
     );
 }
 
-const FormWrapper = styled.div`
+const FormContainer = styled.div`
     width: 75%;
     max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    > section {
-        display: flex;
-        width: 100%;
-    }
 `;

@@ -14,28 +14,24 @@ export default function SignUp() {
         <Form
             formInfo={{ firstName, lastName, email, password, confirmPassword }}
         >
-            <section>
-                <FormField
-                    style={{ marginRight: 10, minWidth: 0 }}
-                    label="First Name"
-                    state={firstName}
-                    setState={setFirstName}
-                    type="text"
-                    required={true}
-                    min={4}
-                    max={16}
-                />
-                <FormField
-                    style={{ minWidth: 0 }}
-                    label="Last Name"
-                    state={lastName}
-                    setState={setLastName}
-                    type="text"
-                    required={true}
-                    min={4}
-                    max={16}
-                />
-            </section>
+            <FormField
+                label="First Name"
+                state={firstName}
+                setState={setFirstName}
+                type="text"
+                required={true}
+                min={4}
+                max={16}
+            />
+            <FormField
+                label="Last Name"
+                state={lastName}
+                setState={setLastName}
+                type="text"
+                required={true}
+                min={4}
+                max={16}
+            />
             <FormField
                 label="Email"
                 state={email}
