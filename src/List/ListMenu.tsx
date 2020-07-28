@@ -20,7 +20,7 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
                 setUsers((users: any) => [...users, importedUser]);
             });
         })();
-    }, []);
+    }, [props.list.users]);
 
     function handleView() {
         history.replace(`/lists/${props.list.id}`);

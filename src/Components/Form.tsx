@@ -8,10 +8,11 @@ interface InputProps {
     value: string | number;
     setValue: Function;
     type: string;
+    onBlur?: Function;
 }
 
 export function InputWithLabel(props: InputProps) {
-    const { label, style, value, setValue, type } = props;
+    const { label, style, value, setValue, type, onBlur } = props;
     const initialState = {
         color: "#999",
         transform: "translateY(0px)",
@@ -30,6 +31,7 @@ export function InputWithLabel(props: InputProps) {
     function handleBlur() {
         if (value) return;
         setSpring(initialState);
+        if (onBlur) onBlur();
     }
 
     return (

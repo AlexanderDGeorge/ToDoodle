@@ -26,7 +26,7 @@ export default function Menu(props: MenuProps) {
         return () => {
             document.removeEventListener("click", handleClick);
         };
-    }, []);
+    });
 
     function toggleOpen() {
         if (open) {

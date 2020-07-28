@@ -44,6 +44,7 @@ export default function FormField(props: FormFieldProps) {
                 value={state}
                 setValue={setState}
                 type={type}
+                onBlur={errorCheck}
             />
             <FormError error={error} />
         </FormFieldWrapper>

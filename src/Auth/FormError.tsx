@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const FormErrorWrapper = styled.div`
     position: absolute;
-    bottom: -20px;
+    bottom: 0;
     right: 0;
     color: #cc0000;
     display: flex;
