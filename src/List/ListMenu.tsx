@@ -54,7 +54,9 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
                 ))}
                 <AddUserCard />
             </div>
-            <LargeButton onClick={handleDelete}>Delete List</LargeButton>
+            <LargeButton onClick={handleDelete} color={"#C81927"}>
+                Delete List
+            </LargeButton>
         </Menu>
     );
 }

@@ -34,7 +34,7 @@ export default function NewListMenu(props: { bottomPosition: String }) {
 
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
-            <h1 style={{ marginBottom: 40 }}>Create a New List</h1>
+            <h1 style={{ marginBottom: 30 }}>Create a New List</h1>
             <InputWithLabel
                 label="Title"
                 value={title}
@@ -59,7 +59,11 @@ export default function NewListMenu(props: { bottomPosition: String }) {
                 ))}
                 <AddUserCard />
             </div>
-            <LargeButton disabled={isDisabled()} onClick={handleCreate}>
+            <LargeButton
+                disabled={isDisabled()}
+                color="#4cb944"
+                onClick={handleCreate}
+            >
                 Create List
             </LargeButton>
         </Menu>

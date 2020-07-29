@@ -20,7 +20,6 @@ export default function List() {
                     if (snapshot.exists) {
                         const data = snapshot.data();
                         if (data) {
-                            console.log(data);
                             setToDos([]);
                         }
                     }

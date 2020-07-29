@@ -4,11 +4,12 @@ export interface ToDo {
     id: string;
     author: string;
     name: string;
-    createdAt: Date;
-    deadline?: Date;
+    createdAt: string;
+    deadline?: string;
+    reminder?: string;
     completed: boolean;
     completedBy?: string;
-    completedAt?: Date;
+    completedAt?: string;
 }
 
 export const createToDo = async (newToDo: {

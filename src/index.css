@@ -5,6 +5,23 @@ body,
     width: 100%;
 }
 
+:root {
+    --dark: "#555555";
+    --mid: "#aaaaaa";
+    --accent: "#cccccc";
+    --light: "#fafafa";
+    --white: "white";
+    --black: "black";
+    --blue: "#0073bb";
+    --lightgreen: "#69ce5f";
+    --green: "#4cb944";
+    --cred: "#C81927";
+    --cblue: "#1885F2";
+    --corange: "#ED8607";
+    --cpurple: "#514EBC";
+    --cgreen: "#00A344";
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
