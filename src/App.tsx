@@ -97,4 +97,5 @@ const AppDiv = styled.div`
     justify-content: center;
     align-items: center;
     background-color: ${(props) => props.theme.light};
+    padding-left: 50px;
 `;

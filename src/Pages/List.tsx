@@ -12,7 +12,7 @@ export default function List() {
 
     useEffect(() => {
         let unsubscribe: Function = () => {};
-        if (currentList.id?.length) {
+        if (currentList.id.length) {
             unsubscribe = firestore
                 .collection("lists")
                 .doc(currentList.id)
@@ -30,7 +30,7 @@ export default function List() {
         };
     }, [currentList]);
 
-    if (currentList.id?.length) {
+    if (currentList.id.length) {
         return (
             <ListContainer>
                 <h1>{currentList.title}</h1>

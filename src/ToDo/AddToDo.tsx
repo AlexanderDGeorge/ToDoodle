@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import Modal from "../Components/Modal";
 import { InputWithLabel, DateTimeSelect, DaySelect } from "../Components/Form";
 import { SmallButton } from "../Components/Buttons";
+import { createToDo } from "./ToDoFirebase";
+import { UserContext, ListContext } from "../App";
 
 export default function AddToDo() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -14,23 +16,32 @@ export default function AddToDo() {
             <div style={{ fontWeight: "bold" }}>Add a ToDo</div>
             {modalOpen ? (
                 <Modal setOpen={setModalOpen}>
-                    <AddToDoModal />
+                    <AddToDoModal setModalOpen={setModalOpen} />
                 </Modal>
             ) : null}
         </AddToDoContainer>
     );
 }
 
-function AddToDoModal() {
+function AddToDoModal(props: { setModalOpen: Function }) {
+    const currentUser = useContext(UserContext);
+    const { currentList } = useContext(ListContext);
     const [name, setName] = useState("");
-    const [date, setDate] = useState<string | undefined>(undefined);
-    const [time, setTime] = useState<string | undefined>(undefined);
+    const [date, setDate] = useState<string>("");
+    const [time, setTime] = useState<string>("");
     const [days, setDays] = useState(["X", "X", "X", "X", "X", "X", "X"]);
 
     console.log(days);
 
     function handleCreate() {
         console.log("in create");
+        createToDo(currentList.id, {
+            author: currentUser.id,
+            name,
+            deadline: date,
+        });
+
+        props.setModalOpen(false);
     }
 
     return (

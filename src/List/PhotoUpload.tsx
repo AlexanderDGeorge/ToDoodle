@@ -4,7 +4,7 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { Label } from "../Components/Form";
 
 interface PhotoUploadProps {
-    color: string;
+    color: string | undefined;
     setColor: Function;
     setPhotoURL: Function;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import Menu, { MenuContext } from "../Nav/Menu";
+import Menu from "../Nav/Menu";
 import { List, deleteList } from "./List";
 import ListIcon from "./ListIcon";
 import { LargeButton } from "../Components/Buttons";
@@ -10,8 +11,7 @@ import ListUserCard, { AddUserCard } from "./ListUserCard";
 import { ListContext } from "../App";
 
 export default function ListMenu(props: { bottomPostion: string; list: List }) {
-    const listContext = useContext(ListContext);
-    const toggleOpen = useContext(MenuContext);
+    const { setCurrentList } = useContext(ListContext);
     const [users, setUsers] = useState<Array<User>>([]);
     const history = useHistory();
 
@@ -27,13 +27,12 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
 
     function handleView() {
         history.replace("/list");
-        listContext?.setCurrentList(props.list);
+        setCurrentList(props.list);
         // [TODO] close menu
     }
 
-    async function handleDelete() {
-        if (toggleOpen) toggleOpen();
-        await deleteList(props.list);
+    function handleDelete() {
+        deleteList(props.list);
     }
 
     return (
@@ -41,22 +40,26 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
             bottomPosition={props.bottomPostion}
             icon={<ListIcon list={props.list} />}
         >
-            <h1>{props.list.title}</h1>
-            <LargeButton onClick={handleView}>View List</LargeButton>
-            <div style={{ marginTop: 10 }}>
-                <Label>Users</Label>
-                {users.map((user, i) => (
-                    <ListUserCard
-                        userId={user.id}
-                        setUsers={setUsers}
-                        key={i}
-                    />
-                ))}
-                <AddUserCard />
-            </div>
-            <LargeButton onClick={handleDelete} color={"#C81927"}>
-                Delete List
-            </LargeButton>
+            <ListMenuContainer>
+                <h1>{props.list.title}</h1>
+                <LargeButton onClick={handleView}>View List</LargeButton>
+                <div style={{ marginTop: 10 }}>
+                    <Label>Users</Label>
+                    {users.map((user, i) => (
+                        <ListUserCard
+                            userId={user.id}
+                            setUsers={setUsers}
+                            key={i}
+                        />
+                    ))}
+                    <AddUserCard />
+                </div>
+                <LargeButton onClick={handleDelete} color={"#C81927"}>
+                    Delete List
+                </LargeButton>
+            </ListMenuContainer>
         </Menu>
     );
 }
+
+const ListMenuContainer = styled.div``;

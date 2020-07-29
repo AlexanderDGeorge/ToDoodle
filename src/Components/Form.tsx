@@ -153,7 +153,7 @@ export function DaySelect(props: { days: Array<string>; setDays: Function }) {
         const newDay = props.days[i] === "X" ? days[i] : "X";
         newSet[i] = newDay;
         console.log(newSet);
-        props.setDays(newSet);
+        return props.setDays(newSet);
     }
 
     return (

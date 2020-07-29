@@ -1,14 +1,12 @@
-import React, { useState, createContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 
 interface MenuProps {
-    children: React.ReactNode;
+    children: React.ReactElement;
     icon: JSX.Element;
     bottomPosition: String;
 }
-
-export const MenuContext = createContext<Function | null>(null);
 
 export default function Menu(props: MenuProps) {
     const [open, setOpen] = useState(false);
@@ -53,9 +51,8 @@ export default function Menu(props: MenuProps) {
             >
                 {props.icon}
             </MenuTab>
-            <MenuContext.Provider value={toggleOpen}>
-                {props.children}
-            </MenuContext.Provider>
+            {React.cloneElement(props.children, { toggleOpen })}
+            {/* {props.children} */}
         </MenuContainer>
     );
 }
@@ -74,9 +71,9 @@ const MenuContainer = styled(animated.div)`
 
 const MenuTab = styled.div`
     position: absolute;
-    right: -70px;
-    height: 70px;
-    width: 70px;
+    right: -50px;
+    height: 50px;
+    width: 50px;
     box-sizing: border-box;
     border-radius: 0 50% 50% 0;
     display: flex;

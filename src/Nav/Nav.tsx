@@ -22,11 +22,11 @@ export default function Nav() {
     return (
         <div>
             <SettingsMenu bottomPosition="20px" />
-            <NewListMenu bottomPosition="100px" />
+            <NewListMenu bottomPosition="70px" />
             {lists.map((list, i) => (
                 <ListMenu
                     list={list}
-                    bottomPostion={`${180 + 80 * i}px`}
+                    bottomPostion={`${120 + 50 * i}px`}
                     key={i}
                 />
             ))}

@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
+import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import Menu, { MenuContext } from "../Nav/Menu";
+import Menu from "../Nav/Menu";
 import { InputWithLabel, Label } from "../Components/Form";
 import { LargeButton } from "../Components/Buttons";
 import { UserContext } from "../App";
@@ -11,61 +12,66 @@ import ListColorPicker from "./ListColorPicker";
 import HorDivWithOr from "../Components/Dividers";
 import PhotoUpload from "./PhotoUpload";
 
-export default function NewListMenu(props: { bottomPosition: String }) {
-    const toggleOpen = useContext(MenuContext);
+export default function NewListMenu(props: { bottomPosition: string }) {
     const currentUser = useContext(UserContext);
-    const [title, setTitle] = useState("");
-    const [photoURL, setPhotoURL] = useState<File | null>(null);
-    const [color, setColor] = useState("");
+    const [title, setTitle] = useState<string>("");
+    const [photoURL, setPhotoURL] = useState<File | undefined>(undefined);
+    const [color, setColor] = useState<string | undefined>(undefined);
     const [users, setUsers] = useState([currentUser.id]);
 
     async function handleCreate() {
-        if (toggleOpen) toggleOpen();
         if (photoURL) {
             const url = await uploadListPhoto(photoURL);
-            await createList({ title, photoURL: url, color, users, toDos: [] });
+            createList({ title, photoURL: url, color, users });
+        } else {
+            createList({ title, photoURL: "", color, users });
         }
-        await createList({ title, photoURL: "", color, users, toDos: [] });
     }
 
     function isDisabled() {
-        return !!!(title.length && (color.length || photoURL) && users.length);
+        return !!!(title.length && (color || photoURL) && users.length);
     }
 
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
-            <h1 style={{ marginBottom: 30 }}>Create a New List</h1>
-            <InputWithLabel
-                label="Title"
-                value={title}
-                setValue={setTitle}
-                type="text"
-            />
-            <ListColorPicker
-                color={color}
-                setColor={setColor}
-                setPhotoURL={setPhotoURL}
-            />
-            <HorDivWithOr />
-            <PhotoUpload
-                color={color}
-                setPhotoURL={setPhotoURL}
-                setColor={setColor}
-            />
-            <div style={{ margin: "20px 0" }}>
-                <Label>Users</Label>
-                {users.map((user, i) => (
-                    <ListUserCard userId={user} setUsers={setUsers} key={i} />
-                ))}
-                <AddUserCard />
-            </div>
-            <LargeButton
-                disabled={isDisabled()}
-                color="#4cb944"
-                onClick={handleCreate}
-            >
-                Create List
-            </LargeButton>
+            <NewListMenuContainer>
+                <h1 style={{ marginBottom: 30 }}>Create a New List</h1>
+                <InputWithLabel
+                    label="Title"
+                    value={title}
+                    setValue={setTitle}
+                    type="text"
+                />
+                <ListColorPicker
+                    color={color}
+                    setColor={setColor}
+                    setPhotoURL={setPhotoURL}
+                />
+                <HorDivWithOr />
+                <PhotoUpload
+                    color={color}
+                    setPhotoURL={setPhotoURL}
+                    setColor={setColor}
+                />
+                <div style={{ margin: "20px 0" }}>
+                    <Label>Users</Label>
+                    {users.map((user, i) => (
+                        <ListUserCard
+                            userId={user}
+                            setUsers={setUsers}
+                            key={i}
+                        />
+                    ))}
+                    <AddUserCard />
+                </div>
+                <LargeButton
+                    disabled={isDisabled()}
+                    color="#4cb944"
+                    onClick={handleCreate}
+                >
+                    Create List
+                </LargeButton>
+            </NewListMenuContainer>
         </Menu>
     );
 }
@@ -91,3 +97,5 @@ function AddListIcon() {
         </animated.div>
     );
 }
+
+const NewListMenuContainer = styled.div``;

@@ -14,19 +14,21 @@ export default function SettingsMenu(props: { bottomPosition: String }) {
     const { darkMode, setDarkMode } = useContext(ThemeContext);
     return (
         <Menu bottomPosition={props.bottomPosition} icon={<SettingsMenuIcon />}>
-            <h1>Settings</h1>
-            <UserCard user={currentUser} />
-            <MenuItem>
-                <h4>Dark Mode</h4>
-                <Toggle toggle={darkMode} setToggle={setDarkMode} />
-            </MenuItem>
-            <LargeButton
-                onClick={() => {
-                    auth.signOut();
-                }}
-            >
-                Logout
-            </LargeButton>
+            <SettingsMenuContainer>
+                <h1>Settings</h1>
+                <UserCard user={currentUser} />
+                <MenuItem>
+                    <h4>Dark Mode</h4>
+                    <Toggle toggle={darkMode} setToggle={setDarkMode} />
+                </MenuItem>
+                <LargeButton
+                    onClick={() => {
+                        auth.signOut();
+                    }}
+                >
+                    Logout
+                </LargeButton>
+            </SettingsMenuContainer>
         </Menu>
     );
 }
@@ -53,6 +55,8 @@ function SettingsMenuIcon() {
         </animated.div>
     );
 }
+
+const SettingsMenuContainer = styled.div``;
 
 const MenuItem = styled.div`
     min-width: 200px;

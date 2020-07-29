@@ -1,7 +1,7 @@
 import { firestore, fieldValue, storageRef } from "../firebase";
 
 export interface List {
-    id?: string;
+    id: string;
     title: string;
     photoURL: string;
     color: string;
@@ -18,12 +18,20 @@ export const initialList: List = {
     toDos: [],
 };
 
-export const createList = async (list: List) => {
+interface NewList {
+    title: string;
+    photoURL?: string;
+    color?: string;
+    users: Array<string>;
+}
+
+export const createList = async (list: NewList) => {
     const listRef = firestore.collection("lists");
     try {
         listRef
             .add({
                 ...list,
+                toDos: [],
             })
             .then((newList) => {
                 list.users.forEach(async (user) => {

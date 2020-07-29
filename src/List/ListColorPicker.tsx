@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Label } from "../Components/Form";
 
 interface ListColorPickerProps {
-    color: string;
+    color: string | undefined;
     setColor: Function;
     setPhotoURL: Function;
 }
