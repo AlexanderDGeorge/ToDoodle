@@ -4,7 +4,7 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import Modal from "../Components/Modal";
 import { InputWithLabel, DateTimeSelect, DaySelect } from "../Components/Form";
 import { SmallButton } from "../Components/Buttons";
-import { createToDo } from "./ToDoFirebase";
+import { createToDo } from "./ToDo";
 import { UserContext, ListContext } from "../App";
 
 export default function AddToDo() {
@@ -31,14 +31,12 @@ function AddToDoModal(props: { setModalOpen: Function }) {
     const [time, setTime] = useState<string>("");
     const [days, setDays] = useState(["X", "X", "X", "X", "X", "X", "X"]);
 
-    console.log(days);
-
     function handleCreate() {
-        console.log("in create");
         createToDo(currentList.id, {
-            author: currentUser.id,
+            author: currentUser.firstName,
             name,
             deadline: date,
+            reminder: time,
         });
 
         props.setModalOpen(false);
@@ -84,6 +82,7 @@ const AddToDoContainer = styled.div`
     min-width: 200px;
     width: 100%;
     max-width: 400px;
+    margin: 10px 0;
     border: 3px solid ${(props) => props.theme.black};
     display: flex;
     align-items: center;

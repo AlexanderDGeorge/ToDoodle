@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { ListContext } from "../App";
 import { firestore } from "../firebase";
 import { Redirect } from "react-router-dom";
-import ToDo from "../ToDo/ToDo";
+import ToDoItem from "../ToDo/ToDoItem";
 import AddToDo from "../ToDo/AddToDo";
 
 export default function List() {
     const { currentList } = useContext(ListContext);
-    const [toDos, setToDos] = useState([]);
+    const [toDos, setToDos] = useState<Array<string>>([]);
 
     useEffect(() => {
         let unsubscribe: Function = () => {};
@@ -20,7 +20,7 @@ export default function List() {
                     if (snapshot.exists) {
                         const data = snapshot.data();
                         if (data) {
-                            setToDos([]);
+                            setToDos(data.toDos);
                         }
                     }
                 });
@@ -34,8 +34,8 @@ export default function List() {
         return (
             <ListContainer>
                 <h1>{currentList.title}</h1>
-                {toDos.map((toDo) => (
-                    <ToDo toDoId={toDo} />
+                {toDos.map((toDoId: string, i: number) => (
+                    <ToDoItem toDoId={toDoId} key={i} />
                 ))}
                 <AddToDo />
             </ListContainer>
