@@ -10,7 +10,24 @@ import { User, fetchUser } from "../User/User";
 import ListUserCard, { AddUserCard } from "./ListUserCard";
 import { ListContext } from "../App";
 
-export default function ListMenu(props: { bottomPostion: string; list: List }) {
+interface ListMenuProps {
+    list: List;
+    bottomPosition: string;
+}
+
+export default function ListMenu(props: ListMenuProps) {
+    return (
+        <Menu
+            bottomPosition={props.bottomPosition}
+            icon={<ListIcon list={props.list} />}
+        >
+            <ListForm {...props} />
+        </Menu>
+    );
+}
+
+function ListForm(props: { toggleOpen?: Function; list: List }) {
+    console.log(props);
     const { setCurrentList } = useContext(ListContext);
     const [users, setUsers] = useState<Array<User>>([]);
     const history = useHistory();
@@ -32,33 +49,29 @@ export default function ListMenu(props: { bottomPostion: string; list: List }) {
     }
 
     function handleDelete() {
+        if (props.toggleOpen) props.toggleOpen();
         deleteList(props.list);
     }
 
     return (
-        <Menu
-            bottomPosition={props.bottomPostion}
-            icon={<ListIcon list={props.list} />}
-        >
-            <ListMenuContainer>
-                <h1>{props.list.title}</h1>
-                <LargeButton onClick={handleView}>View List</LargeButton>
-                <div style={{ marginTop: 10 }}>
-                    <Label>Users</Label>
-                    {users.map((user, i) => (
-                        <ListUserCard
-                            userId={user.id}
-                            setUsers={setUsers}
-                            key={i}
-                        />
-                    ))}
-                    <AddUserCard />
-                </div>
-                <LargeButton onClick={handleDelete} color={"#C81927"}>
-                    Delete List
-                </LargeButton>
-            </ListMenuContainer>
-        </Menu>
+        <ListMenuContainer>
+            <h1>{props.list.title}</h1>
+            <LargeButton onClick={handleView}>View List</LargeButton>
+            <div style={{ marginTop: 10 }}>
+                <Label>Users</Label>
+                {users.map((user, i) => (
+                    <ListUserCard
+                        userId={user.id}
+                        setUsers={setUsers}
+                        key={i}
+                    />
+                ))}
+                <AddUserCard />
+            </div>
+            <LargeButton onClick={handleDelete} color={"#C81927"}>
+                Delete List
+            </LargeButton>
+        </ListMenuContainer>
     );
 }
 

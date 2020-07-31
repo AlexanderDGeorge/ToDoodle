@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 
 interface MenuProps {
-    children: React.ReactElement;
     icon: JSX.Element;
+    children: JSX.Element;
     bottomPosition: String;
 }
 
@@ -43,6 +43,10 @@ export default function Menu(props: MenuProps) {
         }
     }
 
+    const childrenWithProps = React.Children.map(props.children, (child) =>
+        React.cloneElement(child, { toggleOpen })
+    );
+
     return (
         <MenuContainer style={menuSpring} id="MenuContainer">
             <MenuTab
@@ -51,8 +55,7 @@ export default function Menu(props: MenuProps) {
             >
                 {props.icon}
             </MenuTab>
-            {React.cloneElement(props.children, { toggleOpen })}
-            {/* {props.children} */}
+            {childrenWithProps}
         </MenuContainer>
     );
 }

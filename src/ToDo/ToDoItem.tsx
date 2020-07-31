@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import { AiOutlineCheckCircle, AiOutlineCloseSquare } from "react-icons/ai";
+import {
+    AiOutlineCheckCircle,
+    AiOutlineCloseSquare,
+    AiOutlineMore,
+} from "react-icons/ai";
 import { firestore } from "../firebase";
 import { ToDo, updateToDo } from "./ToDo";
 import { UserContext } from "../App";
@@ -62,10 +66,8 @@ export default function ToDoItem(props: { toDoId: string }) {
                         }
                     />
                 )}
-                <div>
-                    <p style={{ fontWeight: "bold" }}>{toDo.name}</p>
-                    <p>{toDo.completed ? `✔️ ${toDo.completedBy}` : ""}</p>
-                </div>
+                <p style={{ fontWeight: "bold" }}>{toDo.name}</p>
+                <AiOutlineMore />
             </ToDoContainer>
         );
     } else return null;
@@ -81,8 +83,13 @@ const ToDoContainer = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    > p {
+        width: 100%;
+        font-weight: bold;
+    }
     > svg {
         height: 100%;
+        min-width: 54px;
         width: auto;
     }
 `;

@@ -9,27 +9,33 @@ import { LargeButton } from "../Components/Buttons";
 import { auth } from "../firebase";
 import { UserCard } from "../User/UserComponents";
 
-export default function SettingsMenu(props: { bottomPosition: String }) {
+export default function SettingsMenu(props: { bottomPosition: string }) {
+    return (
+        <Menu bottomPosition={props.bottomPosition} icon={<SettingsMenuIcon />}>
+            <SettingsForm />
+        </Menu>
+    );
+}
+
+function SettingsForm(props: { toggleOpen?: Function }) {
     const currentUser = useContext(UserContext);
     const { darkMode, setDarkMode } = useContext(ThemeContext);
     return (
-        <Menu bottomPosition={props.bottomPosition} icon={<SettingsMenuIcon />}>
-            <SettingsMenuContainer>
-                <h1>Settings</h1>
-                <UserCard user={currentUser} />
-                <MenuItem>
-                    <h4>Dark Mode</h4>
-                    <Toggle toggle={darkMode} setToggle={setDarkMode} />
-                </MenuItem>
-                <LargeButton
-                    onClick={() => {
-                        auth.signOut();
-                    }}
-                >
-                    Logout
-                </LargeButton>
-            </SettingsMenuContainer>
-        </Menu>
+        <SettingsMenuContainer>
+            <h1>Settings</h1>
+            <UserCard user={currentUser} />
+            <MenuItem>
+                <h4>Dark Mode</h4>
+                <Toggle toggle={darkMode} setToggle={setDarkMode} />
+            </MenuItem>
+            <LargeButton
+                onClick={() => {
+                    auth.signOut();
+                }}
+            >
+                Logout
+            </LargeButton>
+        </SettingsMenuContainer>
     );
 }
 

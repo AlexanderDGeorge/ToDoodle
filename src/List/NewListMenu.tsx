@@ -13,6 +13,14 @@ import HorDivWithOr from "../Components/Dividers";
 import PhotoUpload from "./PhotoUpload";
 
 export default function NewListMenu(props: { bottomPosition: string }) {
+    return (
+        <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
+            <NewListForm />
+        </Menu>
+    );
+}
+
+function NewListForm(props: { toggleOpen?: Function }) {
     const currentUser = useContext(UserContext);
     const [title, setTitle] = useState<string>("");
     const [photoURL, setPhotoURL] = useState<File | undefined>(undefined);
@@ -20,6 +28,7 @@ export default function NewListMenu(props: { bottomPosition: string }) {
     const [users, setUsers] = useState([currentUser.id]);
 
     async function handleCreate() {
+        if (props.toggleOpen) props.toggleOpen();
         if (photoURL) {
             const url = await uploadListPhoto(photoURL);
             createList({ title, photoURL: url, color, users });
@@ -33,46 +42,40 @@ export default function NewListMenu(props: { bottomPosition: string }) {
     }
 
     return (
-        <Menu bottomPosition={props.bottomPosition} icon={<AddListIcon />}>
-            <NewListMenuContainer>
-                <h1 style={{ marginBottom: 30 }}>Create a New List</h1>
-                <InputWithLabel
-                    label="Title"
-                    value={title}
-                    setValue={setTitle}
-                    type="text"
-                />
-                <ListColorPicker
-                    color={color}
-                    setColor={setColor}
-                    setPhotoURL={setPhotoURL}
-                />
-                <HorDivWithOr />
-                <PhotoUpload
-                    color={color}
-                    setPhotoURL={setPhotoURL}
-                    setColor={setColor}
-                />
-                <div style={{ margin: "20px 0" }}>
-                    <Label>Users</Label>
-                    {users.map((user, i) => (
-                        <ListUserCard
-                            userId={user}
-                            setUsers={setUsers}
-                            key={i}
-                        />
-                    ))}
-                    <AddUserCard />
-                </div>
-                <LargeButton
-                    disabled={isDisabled()}
-                    color="#4cb944"
-                    onClick={handleCreate}
-                >
-                    Create List
-                </LargeButton>
-            </NewListMenuContainer>
-        </Menu>
+        <NewListMenuContainer>
+            <h1 style={{ marginBottom: 30 }}>Create a New List</h1>
+            <InputWithLabel
+                label="Title"
+                value={title}
+                setValue={setTitle}
+                type="text"
+            />
+            <ListColorPicker
+                color={color}
+                setColor={setColor}
+                setPhotoURL={setPhotoURL}
+            />
+            <HorDivWithOr />
+            <PhotoUpload
+                color={color}
+                setPhotoURL={setPhotoURL}
+                setColor={setColor}
+            />
+            <div style={{ margin: "20px 0" }}>
+                <Label>Users</Label>
+                {users.map((user, i) => (
+                    <ListUserCard userId={user} setUsers={setUsers} key={i} />
+                ))}
+                <AddUserCard />
+            </div>
+            <LargeButton
+                disabled={isDisabled()}
+                color="#4cb944"
+                onClick={handleCreate}
+            >
+                Create List
+            </LargeButton>
+        </NewListMenuContainer>
     );
 }
 
@@ -98,4 +101,7 @@ function AddListIcon() {
     );
 }
 
-const NewListMenuContainer = styled.div``;
+const NewListMenuContainer = styled.div`
+    height: 100%;
+    overflow-y: scroll;
+`;

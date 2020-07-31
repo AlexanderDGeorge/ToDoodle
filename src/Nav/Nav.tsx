@@ -26,7 +26,7 @@ export default function Nav() {
             {lists.map((list, i) => (
                 <ListMenu
                     list={list}
-                    bottomPostion={`${120 + 50 * i}px`}
+                    bottomPosition={`${120 + 50 * i}px`}
                     key={i}
                 />
             ))}
