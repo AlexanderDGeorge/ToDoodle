@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {
     AiOutlineCheckCircle,
     AiOutlineCloseSquare,
-    AiOutlineMore,
+    AiOutlineEllipsis,
 } from "react-icons/ai";
 import { firestore } from "../firebase";
 import { Todo, updateTodo } from "./Todo";
@@ -70,10 +70,13 @@ export default function TodoItem(props: { todoId: string }) {
                     />
                 )}
                 <p style={{ fontWeight: "bold" }}>{todo.name}</p>
-                <AiOutlineMore onClick={() => setModalOpen(true)} />
+                <AiOutlineEllipsis onClick={() => setModalOpen(true)} />
                 {modalOpen ? (
                     <Modal setOpen={setModalOpen}>
-                        <EditTodoModal setModalOpen={setModalOpen} />
+                        <EditTodoModal
+                            setModalOpen={setModalOpen}
+                            todo={todo}
+                        />
                     </Modal>
                 ) : null}
             </TodoContainer>

@@ -18,15 +18,14 @@ export function InputWithLabel(props: InputProps) {
         transform: "translateY(0px)",
         fontWeight: 500,
     };
-    const [spring, setSpring] = useSpring(() => initialState);
-
-    function handleFocus() {
-        setSpring({
-            color: "black",
-            transform: "translateY(-30px)",
-            fontWeight: 600,
-        });
-    }
+    const sprungState = {
+        color: "black",
+        transform: "translateY(-30px)",
+        fontWeight: 600,
+    };
+    const [spring, setSpring] = useSpring(() =>
+        value ? sprungState : initialState
+    );
 
     function handleBlur() {
         if (value) return;
@@ -44,7 +43,7 @@ export function InputWithLabel(props: InputProps) {
                 name={label}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                onFocus={handleFocus}
+                onFocus={() => setSpring(sprungState)}
                 onBlur={handleBlur}
             />
         </InputContainer>

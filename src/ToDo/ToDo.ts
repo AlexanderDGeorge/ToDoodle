@@ -32,14 +32,14 @@ export const createTodo = async (
                 completedAt: "",
             })
             .then((todo) => {
-                addListToDo(listId, todo.id);
+                addListTodo(listId, todo.id);
             });
     } catch (error) {
         console.error(error.message);
     }
 };
 
-const addListToDo = async (listId: string, todoId: string) => {
+const addListTodo = async (listId: string, todoId: string) => {
     const listRef = firestore.collection("lists").doc(listId);
     try {
         listRef.update({
@@ -51,9 +51,22 @@ const addListToDo = async (listId: string, todoId: string) => {
 };
 
 export const updateTodo = async (todo: Todo) => {
-    const todoRef = firestore.collection("toDos").doc(todo.id);
+    const todoRef = firestore.collection("todos").doc(todo.id);
     try {
-        todoRef.update(todo);
+        await todoRef.update(todo);
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
+export const deleteTodo = async (listId: string, todoId: string) => {
+    const todoRef = firestore.collection("todos").doc(todoId);
+    const listRef = firestore.collection("lists").doc(listId);
+    try {
+        listRef.update({
+            todos: fieldValue.arrayRemove(todoId),
+        });
+        todoRef.delete();
     } catch (error) {
         console.error(error.message);
     }
