@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import Menu from "../Nav/Menu";
-import { List, deleteList } from "./List";
+import { List, deleteList, initialList } from "./List";
 import ListIcon from "./ListIcon";
 import { LargeButton } from "../Components/Buttons";
 import { Label } from "../Components/Form";
@@ -27,7 +27,6 @@ export default function ListMenu(props: ListMenuProps) {
 }
 
 function ListForm(props: { toggleOpen?: Function; list: List }) {
-    console.log(props);
     const { setCurrentList } = useContext(ListContext);
     const [users, setUsers] = useState<Array<User>>([]);
     const history = useHistory();
@@ -44,13 +43,14 @@ function ListForm(props: { toggleOpen?: Function; list: List }) {
 
     function handleView() {
         history.replace("/list");
+        if (props.toggleOpen) props.toggleOpen();
         setCurrentList(props.list);
-        // [TODO] close menu
     }
 
     function handleDelete() {
         if (props.toggleOpen) props.toggleOpen();
         deleteList(props.list);
+        setCurrentList(initialList);
     }
 
     return (

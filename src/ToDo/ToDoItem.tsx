@@ -6,22 +6,25 @@ import {
     AiOutlineMore,
 } from "react-icons/ai";
 import { firestore } from "../firebase";
-import { ToDo, updateToDo } from "./ToDo";
+import { Todo, updateTodo } from "./Todo";
 import { UserContext } from "../App";
+import Modal from "../Components/Modal";
+import EditTodoModal from "./EditTodo";
 
-export default function ToDoItem(props: { toDoId: string }) {
+export default function TodoItem(props: { todoId: string }) {
     const currentUser = useContext(UserContext);
-    const [toDo, setToDo] = useState<ToDo | undefined>(undefined);
+    const [todo, setTodo] = useState<Todo | undefined>(undefined);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         const unsubscribe = firestore
-            .collection("toDos")
-            .doc(props.toDoId)
+            .collection("todos")
+            .doc(props.todoId)
             .onSnapshot((snapshot) => {
                 if (snapshot.exists) {
                     const data = snapshot.data();
                     if (data) {
-                        setToDo({
+                        setTodo({
                             id: snapshot.id,
                             author: data.author,
                             name: data.name,
@@ -38,16 +41,16 @@ export default function ToDoItem(props: { toDoId: string }) {
         return () => {
             unsubscribe();
         };
-    }, [props.toDoId]);
+    }, [props.todoId]);
 
-    if (toDo) {
+    if (todo) {
         return (
-            <ToDoContainer>
-                {toDo.completed ? (
+            <TodoContainer>
+                {todo.completed ? (
                     <AiOutlineCheckCircle
                         onClick={() =>
-                            updateToDo({
-                                ...toDo,
+                            updateTodo({
+                                ...todo,
                                 completed: false,
                                 completedBy: "",
                                 completedAt: "",
@@ -57,8 +60,8 @@ export default function ToDoItem(props: { toDoId: string }) {
                 ) : (
                     <AiOutlineCloseSquare
                         onClick={() =>
-                            updateToDo({
-                                ...toDo,
+                            updateTodo({
+                                ...todo,
                                 completed: true,
                                 completedBy: currentUser.firstName,
                                 completedAt: new Date().toString(),
@@ -66,14 +69,19 @@ export default function ToDoItem(props: { toDoId: string }) {
                         }
                     />
                 )}
-                <p style={{ fontWeight: "bold" }}>{toDo.name}</p>
-                <AiOutlineMore />
-            </ToDoContainer>
+                <p style={{ fontWeight: "bold" }}>{todo.name}</p>
+                <AiOutlineMore onClick={() => setModalOpen(true)} />
+                {modalOpen ? (
+                    <Modal setOpen={setModalOpen}>
+                        <EditTodoModal setModalOpen={setModalOpen} />
+                    </Modal>
+                ) : null}
+            </TodoContainer>
         );
     } else return null;
 }
 
-const ToDoContainer = styled.div`
+const TodoContainer = styled.div`
     height: 60px;
     min-width: 200px;
     width: 100%;

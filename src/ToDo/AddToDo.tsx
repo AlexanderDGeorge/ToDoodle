@@ -4,47 +4,56 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import Modal from "../Components/Modal";
 import { InputWithLabel, DateTimeSelect, DaySelect } from "../Components/Form";
 import { SmallButton } from "../Components/Buttons";
-import { createToDo } from "./ToDo";
+import { createTodo } from "./Todo";
 import { UserContext, ListContext } from "../App";
 
-export default function AddToDo() {
+export default function AddTodo() {
     const [modalOpen, setModalOpen] = useState(false);
 
     return (
-        <AddToDoContainer onClick={() => setModalOpen(true)}>
-            <AiOutlinePlusSquare style={{ height: "100%", width: "auto" }} />
-            <div style={{ fontWeight: "bold" }}>Add a ToDo</div>
+        <>
+            <AddToDoContainer onClick={() => setModalOpen(true)}>
+                <AiOutlinePlusSquare
+                    style={{ height: "100%", width: "auto" }}
+                />
+                <div style={{ fontWeight: "bold" }}>Add a Todo</div>
+            </AddToDoContainer>
             {modalOpen ? (
                 <Modal setOpen={setModalOpen}>
                     <AddToDoModal setModalOpen={setModalOpen} />
                 </Modal>
             ) : null}
-        </AddToDoContainer>
+        </>
     );
 }
 
-function AddToDoModal(props: { setModalOpen: Function }) {
+interface AddToDoModalProps {
+    setModalOpen: Function;
+    name?: string;
+    date?: string;
+}
+
+export function AddToDoModal(props: AddToDoModalProps) {
     const currentUser = useContext(UserContext);
     const { currentList } = useContext(ListContext);
-    const [name, setName] = useState("");
-    const [date, setDate] = useState<string>("");
+    const [name, setName] = useState(props.name || "");
+    const [date, setDate] = useState<string>(props.date || "");
     const [time, setTime] = useState<string>("");
     const [days, setDays] = useState(["X", "X", "X", "X", "X", "X", "X"]);
 
     function handleCreate() {
-        createToDo(currentList.id, {
+        createTodo(currentList.id, {
             author: currentUser.firstName,
             name,
             deadline: date,
             reminder: time,
         });
-
         props.setModalOpen(false);
     }
 
     return (
         <AddToDoModalContainer>
-            <h2 style={{ marginBottom: 30 }}>Create a ToDo</h2>
+            <h2 style={{ marginBottom: 30 }}>Create a Todo</h2>
             <InputWithLabel
                 label="Name"
                 value={name}

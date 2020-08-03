@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { ListContext } from "../App";
 import { firestore } from "../firebase";
 import { Redirect } from "react-router-dom";
-import ToDoItem from "../ToDo/ToDoItem";
-import AddToDo from "../ToDo/AddToDo";
+import TodoItem from "../Todo/TodoItem";
+import AddTodo from "../Todo/AddTodo";
 
 export default function List() {
     const { currentList } = useContext(ListContext);
-    const [toDos, setToDos] = useState<Array<string>>([]);
+    const [todos, setTodos] = useState<Array<string>>([]);
 
     useEffect(() => {
         let unsubscribe: Function = () => {};
@@ -20,7 +20,8 @@ export default function List() {
                     if (snapshot.exists) {
                         const data = snapshot.data();
                         if (data) {
-                            setToDos(data.toDos);
+                            console.log(data);
+                            setTodos(data.todos);
                         }
                     }
                 });
@@ -34,10 +35,12 @@ export default function List() {
         return (
             <ListContainer>
                 <h1>{currentList.title}</h1>
-                {toDos.map((toDoId: string, i: number) => (
-                    <ToDoItem toDoId={toDoId} key={i} />
-                ))}
-                <AddToDo />
+                <TodosContainer>
+                    {todos.map((todoId: string, i: number) => (
+                        <TodoItem todoId={todoId} key={i} />
+                    ))}
+                    <AddTodo />
+                </TodosContainer>
             </ListContainer>
         );
     } else {
@@ -48,5 +51,14 @@ export default function List() {
 const ListContainer = styled.div`
     height: 100%;
     width: 100%;
+    overflow-y: scroll;
+    width: 100%;
     padding: 2%;
+`;
+
+const TodosContainer = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 `;

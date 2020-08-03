@@ -6,7 +6,7 @@ export interface List {
     photoURL: string;
     color: string;
     users: Array<string>;
-    toDos: Array<string>;
+    todos: Array<string>;
 }
 
 export const initialList: List = {
@@ -15,7 +15,7 @@ export const initialList: List = {
     photoURL: "",
     color: "",
     users: [],
-    toDos: [],
+    todos: [],
 };
 
 interface NewList {
@@ -31,7 +31,7 @@ export const createList = async (list: NewList) => {
         listRef
             .add({
                 ...list,
-                toDos: [],
+                todos: [],
             })
             .then((newList) => {
                 list.users.forEach(async (user) => {
@@ -77,6 +77,10 @@ export const deleteList = async (list: List) => {
             userRef.update({
                 lists: fieldValue.arrayRemove(list?.id),
             });
+        });
+        list.todos.forEach((todo) => {
+            const todoRef = firestore.collection("todos").doc(todo);
+            todoRef.delete();
         });
         await listRef.delete();
         console.log("list delete done.");

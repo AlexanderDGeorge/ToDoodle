@@ -32,7 +32,6 @@ export default function App() {
     const [currentList, setCurrentList] = useState<List>(initialList);
     const [darkMode, setDarkMode] = useState(false);
 
-    console.log(currentList);
     useEffect(() => {
         let unsubscribe: Function;
         auth.onAuthStateChanged(async (user) => {

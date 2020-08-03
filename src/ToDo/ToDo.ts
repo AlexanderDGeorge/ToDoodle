@@ -1,6 +1,6 @@
 import { firestore, fieldValue } from "../firebase";
 
-export interface ToDo {
+export interface Todo {
     id: string;
     author: string;
     name: string;
@@ -12,48 +12,48 @@ export interface ToDo {
     completedAt: string;
 }
 
-export const createToDo = async (
+export const createTodo = async (
     listId: string,
-    newToDo: {
+    newTodo: {
         author: string;
         name: string;
         deadline: string;
         reminder: string;
     }
 ) => {
-    const toDoRef = firestore.collection("toDos");
+    const todoRef = firestore.collection("todos");
     try {
-        return toDoRef
+        return todoRef
             .add({
-                ...newToDo,
+                ...newTodo,
                 createdAt: new Date(),
                 completed: false,
                 completedBy: "",
                 completedAt: "",
             })
-            .then((toDo) => {
-                addListToDo(listId, toDo.id);
+            .then((todo) => {
+                addListToDo(listId, todo.id);
             });
     } catch (error) {
         console.error(error.message);
     }
 };
 
-const addListToDo = async (listId: string, toDoId: string) => {
+const addListToDo = async (listId: string, todoId: string) => {
     const listRef = firestore.collection("lists").doc(listId);
     try {
         listRef.update({
-            toDos: fieldValue.arrayUnion(toDoId),
+            todos: fieldValue.arrayUnion(todoId),
         });
     } catch (error) {
         console.error(error.message);
     }
 };
 
-export const updateToDo = async (toDo: ToDo) => {
-    const toDoRef = firestore.collection("toDos").doc(toDo.id);
+export const updateTodo = async (todo: Todo) => {
+    const todoRef = firestore.collection("toDos").doc(todo.id);
     try {
-        toDoRef.update(toDo);
+        todoRef.update(todo);
     } catch (error) {
         console.error(error.message);
     }
